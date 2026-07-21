@@ -1,4 +1,8 @@
-export default function Home() {
+// import { prisma } from "@/lib/prisma";
+export default async function Home() {
+  // const count = await prisma.test.count();
+  // console.log(count);
+
   return (
     <div className="flex flex-1 items-center justify-center bg-white px-6 dark:bg-black">
       <main className="text-center">
