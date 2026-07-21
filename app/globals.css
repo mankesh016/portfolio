@@ -128,3 +128,28 @@
     @apply font-sans;
   }
 }
+
+body {
+  background-color: #fafafa;
+  /* neutral-50 */
+  color: #171717;
+  /* neutral-900 */
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-grid;
+}
+
+.nav-link::before {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  font-weight: 600;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav-link span {
+  grid-area: 1 / 1;
+}
