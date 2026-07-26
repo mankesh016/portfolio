@@ -78,3 +78,22 @@ model Skill {
   categoryId String
   category   SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
+
+model Experience {
+  id           String   @id @default(cuid())
+  companyName  String
+  companyUrl   String?
+  logoUrl      String?
+  title        String
+  location     String?
+  startMonth   Int
+  startYear    Int
+  endMonth     Int?
+  endYear      Int?
+  isCurrent    Boolean  @default(false)
+  bulletsLong  Json     // string[] - bullet points for /experience
+  summaryShort String   // paragraph for Home teaser
+  skillsUsed   Json     // { name: string; iconSlug?: string }[] - insertion order preserved
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}

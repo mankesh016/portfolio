@@ -1,10 +1,15 @@
-import MiniWindow from "@/components/MiniWindow";
+import { prisma } from "@/lib/prisma";
+import ExperienceCard from "@/components/ExperienceCard";
 
-export default function ExperiencePage() {
+export default async function ExperiencePage() {
+  const items = await prisma.experience.findMany({
+    orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
+  });
   return (
-    <MiniWindow>
-      <p className="font-mono text-sm text-neutral-400">cd ./experience</p>
-      <p className="mt-2 text-sm text-neutral-500">This page isn't built yet — check back soon.</p>
-    </MiniWindow>
+    <div className="space-y-4">
+      {items.map((exp) => (
+        <ExperienceCard key={exp.id} exp={exp} />
+      ))}
+    </div>
   );
 }
