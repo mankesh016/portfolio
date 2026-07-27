@@ -32,12 +32,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const profile = await prisma.profile.findUnique({ where: { id: "singleton" } });
+
   return (
     <html lang="en">
       <body>
         <div className="min-h-screen px-4 py-6 sm:px-8">
-          <Navbar />
+          <Navbar photoUrl={profile?.photoSmallUrl} />
           <main className="mx-auto max-w-4xl pt-8">{children}</main>
           <Footer />
         </div>

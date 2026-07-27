@@ -5,13 +5,18 @@ import { usePathname } from "next/navigation";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/icons";
 import { NAV_ITEMS, SOCIAL_LINKS } from "@/lib/constants";
 
-export default function Navbar() {
+export default function Navbar({ photoUrl }: { photoUrl?: string | null }) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
   return (
     <div className="sticky top-4 z-50 mx-auto flex max-w-4xl items-center justify-between gap-4 rounded-full border border-neutral-200 bg-white px-5 py-2.5 shadow-sm">
-      <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-neutral-200">
-        {/* swap this avatar <img src="/avatar.jpg" /> */}
+      <div
+        className={`h-9 w-9 shrink-0 overflow-hidden rounded-full transition-opacity duration-800 ${
+          photoUrl && !isHome ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {photoUrl && <img src={photoUrl} alt="" className="h-full w-full object-cover" />}
       </div>
 
       <nav className="flex flex-1 flex-wrap items-center justify-center gap-1 text-sm">
