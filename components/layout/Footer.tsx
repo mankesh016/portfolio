@@ -1,5 +1,5 @@
 import { SOCIAL_LINKS } from "@/lib/constants";
-import CodeIcon from "./CodeIcon";
+import CodeIcon from "../icons/CodeIcon";
 
 const CODE_HANDLES = [
   { name: "Github", url: SOCIAL_LINKS.github, slug: "github" },

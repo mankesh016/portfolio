@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import MiniWindow from "@/components/MiniWindow";
+import MiniWindow from "@/components/layout/MiniWindow";
 import TechPill from "@/components/TechPill";
-import InfoLineIcon from "@/components/InfoLineIcon";
+import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
 import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
 

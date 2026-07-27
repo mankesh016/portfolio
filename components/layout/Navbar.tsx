@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/icons";
 import { NAV_ITEMS, SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Navbar() {

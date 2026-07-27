@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { createInfoLine, deleteInfoLine, toggleInfoLineFeatured, moveInfoLine } from "@/app/actions/infoLines";
-import InfoLineIcon from "@/components/InfoLineIcon";
+import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import { Star, ArrowUp, ArrowDown, Trash2 } from "lucide-react";
 
 export default async function AdminInfoLinesPage() {

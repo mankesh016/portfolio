@@ -1,4 +1,4 @@
-import MiniWindow from "@/components/MiniWindow";
+import MiniWindow from "@/components/layout/MiniWindow";
 
 export const metadata = { title: "Competitive Programming" };
 

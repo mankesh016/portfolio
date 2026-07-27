@@ -1,4 +1,4 @@
-import MiniWindow from "@/components/MiniWindow";
+import MiniWindow from "@/components/layout/MiniWindow";
 import TechPill from "@/components/TechPill";
 import { prisma } from "@/lib/prisma";
 
