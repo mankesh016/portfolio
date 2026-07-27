@@ -1,0 +1,28 @@
+import Link from "next/link";
+
+const SECTIONS = [
+  { label: "Profile", href: "/admin/profile", desc: "Name, tagline, about, photo, GitHub username" },
+  { label: "Info Lines", href: "/admin/info-lines", desc: "Location, email, education, CP ranks" },
+  { label: "Skills", href: "/admin/skills", desc: "Categories and skill pills" },
+  { label: "Experience", href: "/admin/experience", desc: "Work history and roles" },
+];
+
+export default function AdminDashboard() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
+      <div className="mt-4 space-y-2">
+        {SECTIONS.map((s) => (
+          <Link
+            key={s.href}
+            href={s.href}
+            className="block rounded-lg border border-neutral-200 px-4 py-3 hover:bg-neutral-50"
+          >
+            <p className="text-sm font-medium text-neutral-800">{s.label}</p>
+            <p className="text-xs text-neutral-400">{s.desc}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}

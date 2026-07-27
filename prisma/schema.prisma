@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String           @id @default(cuid())
+  name             String?
+  email            String?          @unique
+  emailVerified    DateTime?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  guestbookEntries GuestbookEntry[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model GuestbookEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  isAnonymous Boolean  @default(false)
+  message     String
+  approved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model SkillCategory {
+  id     String  @id @default(cuid())
+  name   String
+  order  Int     @default(0)
+  skills Skill[]
+}
+
+model Skill {
+  id         String        @id @default(cuid())
+  name       String
+  iconSlug   String?
+  featured   Boolean       @default(false)
+  order      Int           @default(0)
+  categoryId String
+  category   SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id           String   @id @default(cuid())
+  companyName  String
+  companyUrl   String?
+  logoUrl      String?
+  title        String
+  location     String?
+  startMonth   Int
+  startYear    Int
+  endMonth     Int?
+  endYear      Int?
+  isCurrent    Boolean  @default(false)
+  bulletsLong  Json     // string[] - bullet points for /experience
+  summaryShort String   // paragraph for Home teaser
+  skillsUsed   Json     // { name: string; iconSlug?: string }[] - insertion order preserved
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Profile {
+  id             String  @id @default("singleton")
+  name           String
+  tagline        String
+  about          String
+  photoSmallUrl  String?
+  photoMediumUrl String?
+  githubUsername String?
+}
+
+model InfoLine {
+  id        String  @id @default(cuid())
+  iconType  String  // "simpleicon" | "lucide"
+  iconValue String  // simple-icons slug, or a key from lib/lucideIcons.ts
+  text      String
+  href      String?
+  featured  Boolean @default(true)
+  order     Int     @default(0)
+}
