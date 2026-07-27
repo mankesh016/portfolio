@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import ExperienceCard from "@/components/ExperienceCard";
 
+export const metadata = { title: "Experience" };
+
 export default async function ExperiencePage() {
   const items = await prisma.experience.findMany({
     orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],

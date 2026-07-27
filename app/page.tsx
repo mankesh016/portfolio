@@ -32,11 +32,10 @@ export default async function HomePage() {
             className="h-28 w-28 shrink-0 rounded-full border border-neutral-200 object-cover"
           />
         )}
-        <div>
-          <h1 className="text-3xl font-bold text-neutral-900">
-            Hi, I'm <span>{profile.name}</span>
-          </h1>
-          <p className="mt-1 font-mono text-sm text-neutral-500">{profile.tagline}</p>
+        <div className="flex flex-col justify-center">
+          <h1 className="text-2xl font-normal text-neutral-700">Hi, I'm</h1>
+          <h1 className="text-3xl font-bold text-neutral-900">{profile.name}</h1>
+          <p className="mt-1 font-mono text-md text-neutral-500">{profile.tagline}</p>
         </div>
       </div>
 
@@ -68,8 +67,7 @@ export default async function HomePage() {
 
       {/* Inherited teasers */}
       {featuredSkills.length > 0 && (
-        <MiniWindow>
-          <h2 className="mb-3 text-sm font-semibold text-neutral-500">Skills</h2>
+        <MiniWindow title="Skills">
           <div className="flex flex-wrap gap-2.5">
             {featuredSkills.map((skill) => (
               <TechPill key={skill.id} name={skill.name} iconSlug={skill.iconSlug} />
@@ -79,17 +77,15 @@ export default async function HomePage() {
       )}
 
       {featuredExperiences.length > 0 && (
-        <MiniWindow>
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-neutral-500">Experience</h2>
-            <Link href="/experience" className="text-xs text-orange-600 hover:underline">
-              See more →
-            </Link>
-          </div>
-          <div className="mt-3 space-y-4">
+        <MiniWindow title="Experience">
+          <div className="space-y-4">
             {featuredExperiences.map((exp) => (
               <ExperienceTeaserCard key={exp.id} exp={exp} />
             ))}
+
+            <Link href="/experience" className="text-xs text-orange-600 hover:underline">
+              See more →
+            </Link>
           </div>
         </MiniWindow>
       )}

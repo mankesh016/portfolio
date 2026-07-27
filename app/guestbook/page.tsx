@@ -5,6 +5,8 @@ import SignInButton from "@/components/SignInButton";
 import GuestbookForm from "@/components/GuestbookForm";
 import { approveEntry } from "@/app/actions/guestbook";
 
+export const metadata = { title: "Guestbook" };
+
 export default async function GuestbookPage() {
   const session = await auth();
   const isAdmin = session?.user?.isAdmin;

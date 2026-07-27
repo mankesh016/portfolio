@@ -1,5 +1,7 @@
 import MiniWindow from "@/components/MiniWindow";
 
+export const metadata = { title: "About" };
+
 export default function AboutPage() {
   return (
     <MiniWindow>

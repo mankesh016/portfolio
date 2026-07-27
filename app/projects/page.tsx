@@ -1,5 +1,7 @@
 import MiniWindow from "@/components/MiniWindow";
 
+export const metadata = { title: "Projects" };
+
 export default function ProjectsPage() {
   return (
     <MiniWindow>

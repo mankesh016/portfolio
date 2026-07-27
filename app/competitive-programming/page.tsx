@@ -1,5 +1,7 @@
 import MiniWindow from "@/components/MiniWindow";
 
+export const metadata = { title: "Competitive Programming" };
+
 export default function CompetitiveProgrammingPage() {
   return (
     <MiniWindow>
