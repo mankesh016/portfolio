@@ -18,3 +18,10 @@ export const NAV_ITEMS = [
   { label: "About", href: "/about" },
   { label: "Guestbook", href: "/guestbook" },
 ];
+
+export const CONTACT_CARD = {
+  heading: "Great things start with a conversation.",
+  subtitle:
+    "If you have an idea to discuss, need some guidance, have an opportunity to share, or just want to say hi... I'm just a message away.",
+  calUrl: "https://cal.com/mankesh",
+};
