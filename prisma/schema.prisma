@@ -117,3 +117,22 @@ model InfoLine {
   featured  Boolean @default(true)
   order     Int     @default(0)
 }
+
+model PlatformCard {
+  id        String              @id @default(cuid())
+  heading   String
+  subtitle  String?
+  logoUrl   String?
+  infoLines Json
+  order     Int                 @default(0)
+  images    PlatformCardImage[]
+}
+
+model PlatformCardImage {
+  id      String       @id @default(cuid())
+  cardId  String
+  card    PlatformCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  url     String
+  caption String?
+  order   Int          @default(0)
+}

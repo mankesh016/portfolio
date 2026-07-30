@@ -1,12 +1,26 @@
-import MiniWindow from "@/components/layout/MiniWindow";
+import PlatformCard from "@/components/PlatformCard";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = { title: "Competitive Programming" };
 
-export default function CompetitiveProgrammingPage() {
+export default async function CompetitiveProgrammingPage() {
+  const cards = await prisma.platformCard.findMany({
+    orderBy: { order: "asc" },
+    include: { images: { orderBy: { order: "asc" } } },
+  });
+
   return (
-    <MiniWindow>
-      <p className="font-mono text-sm text-neutral-400">cd ./competitive-programming</p>
-      <p className="mt-2 text-sm text-neutral-500">This page isn't built yet — check back soon.</p>
-    </MiniWindow>
+    <div className="space-y-6">
+      {cards.map((card) => (
+        <PlatformCard
+          key={card.id}
+          heading={card.heading}
+          subtitle={card.subtitle}
+          logoUrl={card.logoUrl}
+          infoLines={card.infoLines as { icon: string; text: string }[]}
+          images={card.images}
+        />
+      ))}
+    </div>
   );
 }
