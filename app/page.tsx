@@ -5,6 +5,7 @@ import TechPill from "@/components/TechPill";
 import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
 import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
+import ContactCard from "@/components/ContactCard";
 
 export default async function HomePage() {
   const [profile, infoLines, featuredSkills, featuredExperiences] = await Promise.all([
@@ -89,6 +90,8 @@ export default async function HomePage() {
           </div>
         </MiniWindow>
       )}
+
+      <ContactCard />
     </div>
   );
 }

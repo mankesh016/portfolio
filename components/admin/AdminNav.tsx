@@ -9,6 +9,7 @@ const ADMIN_SECTIONS = [
   { label: "Skills", href: "/admin/skills" },
   { label: "Experience", href: "/admin/experience" },
   { label: "Projects", href: "/admin/projects" },
+  { label: "CP", href: "/admin/cp" },
 ];
 
 export default function AdminNav() {

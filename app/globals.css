@@ -129,6 +129,25 @@
   }
 }
 
+@keyframes dot-blink-a {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes dot-blink-b {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
 body {
   background-color: #fafafa;
   /* neutral-50 */
