@@ -1,12 +1,15 @@
-import MiniWindow from "@/components/layout/MiniWindow";
+import ProjectCard from "@/components/ProjectCard";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = { title: "Projects" };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
   return (
-    <MiniWindow>
-      <p className="font-mono text-sm text-neutral-400">cd ./projects</p>
-      <p className="mt-2 text-sm text-neutral-500">This page isn't built yet — check back soon.</p>
-    </MiniWindow>
+    <div className="space-y-3">
+      {projects.map((p) => (
+        <ProjectCard key={p.id} project={p} />
+      ))}
+    </div>
   );
 }

@@ -136,3 +136,18 @@ model PlatformCardImage {
   caption String?
   order   Int          @default(0)
 }
+
+model Project {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  logoUrl          String?
+  shortDescription String
+  longDescription  String
+  mediaType        String   @default("none") // "none" | "image" | "video" | "youtube"
+  mediaUrl         String?
+  buttons          Json     // { type, label, url }[]
+  techStack        Json     // { name, iconSlug? }[]
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+}
