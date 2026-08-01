@@ -24,7 +24,14 @@ export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) 
             <div className="pb-8">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs text-neutral-400">
-                  {formatJourneyDate(event.year, event.month, event.dateLabel)}
+                  {formatJourneyDate(
+                    event.year,
+                    event.month,
+                    event.dateLabel,
+                    event.endYear,
+                    event.endMonth,
+                    event.endDateLabel,
+                  )}
                 </span>
                 {event.statusLabel && (
                   <span

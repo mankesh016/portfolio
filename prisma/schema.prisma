@@ -157,6 +157,9 @@ model JourneyEvent {
   year          Int
   month         Int?
   dateLabel     String?
+  endYear       Int?
+  endMonth      Int?
+  endDateLabel  String?  // manual override, e.g. "Present"
   statusLabel   String?  
   statusVariant String   @default("neutral") // "neutral" | "highlight"
   logoUrl       String?
