@@ -151,3 +151,20 @@ model Project {
   order            Int      @default(0)
   createdAt        DateTime @default(now())
 }
+
+model JourneyEvent {
+  id            String   @id @default(cuid())
+  year          Int
+  month         Int?
+  dateLabel     String?
+  statusLabel   String?  
+  statusVariant String   @default("neutral") // "neutral" | "highlight"
+  logoUrl       String?
+  heading       String
+  description   String
+  tags          Json     // { name: string; iconSlug?: string }[]
+  linkType      String?  // "youtube" | "linkedin" | "external"
+  linkLabel     String?
+  linkUrl       String?
+  order         Int      @default(0)
+}
