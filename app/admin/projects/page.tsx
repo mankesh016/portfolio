@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { deleteProject } from "@/app/actions/projects";
+import { deleteProject, moveProject } from "@/app/actions/projects";
+import { ArrowUp, ArrowDown } from "lucide-react";
 
 export default async function AdminProjectsPage() {
   const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
@@ -20,7 +21,17 @@ export default async function AdminProjectsPage() {
             className="flex items-center justify-between rounded-md border border-neutral-100 px-3 py-2 text-sm"
           >
             <span className="font-medium text-neutral-800">{p.name}</span>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
+              <form action={moveProject.bind(null, p.id, "up")}>
+                <button type="submit">
+                  <ArrowUp className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
+                </button>
+              </form>
+              <form action={moveProject.bind(null, p.id, "down")}>
+                <button type="submit">
+                  <ArrowDown className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
+                </button>
+              </form>
               <Link href={`/admin/projects/${p.id}/edit`} className="text-blue-600">
                 Edit
               </Link>
