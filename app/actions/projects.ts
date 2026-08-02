@@ -76,3 +76,17 @@ export async function deleteProject(id: string) {
   const project = await prisma.project.delete({ where: { id } });
   revalidateAll(project.slug);
 }
+
+export async function moveProject(id: string, direction: "up" | "down") {
+  await assertAdmin();
+  const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
+  const index = projects.findIndex((p) => p.id === id);
+  const swapIndex = direction === "up" ? index - 1 : index + 1;
+  if (swapIndex < 0 || swapIndex >= projects.length) return;
+
+  await prisma.$transaction([
+    prisma.project.update({ where: { id: projects[index].id }, data: { order: projects[swapIndex].order } }),
+    prisma.project.update({ where: { id: projects[swapIndex].id }, data: { order: projects[index].order } }),
+  ]);
+  revalidateAll();
+}
