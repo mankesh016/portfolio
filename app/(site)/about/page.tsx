@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import JourneyTimeline from "@/components/JourneyTimeline";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata = { title: "About" };
 
@@ -8,8 +9,11 @@ export default async function AboutPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-neutral-900">Journey</h1>
-      <p className="mt-2 text-neutral-500">Milestones, side quests, and things I've shared publicly.</p>
+      <PageHeader
+        trail={[{ label: "Home", href: "/" }, { label: "About" }]}
+        heading="Journey"
+        subtitle="Milestones, side quests, and things I've shared publicly."
+      />
 
       <div className="mt-8">
         <JourneyTimeline events={events} />

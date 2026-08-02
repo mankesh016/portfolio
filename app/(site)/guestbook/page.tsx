@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import SignInButton from "@/components/SignInButton";
 import GuestbookForm from "@/components/GuestbookForm";
 import { approveEntry } from "@/app/actions/guestbook";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata = { title: "Guestbook" };
 
@@ -21,15 +22,11 @@ export default async function GuestbookPage() {
 
   return (
     <div>
-      <p className="text-sm text-neutral-400">
-        <Link href="/" className="hover:text-neutral-600">
-          Home
-        </Link>{" "}
-        / <span className="text-neutral-700">Guestbook</span>
-      </p>
-
-      <h1 className="mt-6 text-4xl font-bold text-neutral-900">Guestbook</h1>
-      <p className="mt-2 text-neutral-500">Leave a mark, say hi, or share what brought you to my corner of the web.</p>
+      <PageHeader
+        trail={[{ label: "Home", href: "/" }, { label: "Guestbook" }]}
+        heading="Guestbook"
+        subtitle="Leave a mark, say hi, or share what brought you to my corner of the web."
+      />
 
       <div className="mt-8">
         {session?.user ? <GuestbookForm userName={session.user.name ?? "You"} /> : <SignInButton />}

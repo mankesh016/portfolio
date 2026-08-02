@@ -2,7 +2,7 @@ export default function ProjectMedia({ mediaType, mediaUrl }: { mediaType: strin
   if (!mediaUrl || mediaType === "none") return null;
 
   if (mediaType === "image") {
-    return <img src={mediaUrl} alt="" className="w-full rounded-lg border border-neutral-100 object-cover" />;
+    return <img src={mediaUrl} alt="" className="w-[50%] rounded-lg border border-neutral-100 object-cover" />;
   }
   if (mediaType === "video") {
     return (

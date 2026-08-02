@@ -1,3 +1,4 @@
+import PageHeader from "@/components/PageHeader";
 import PlatformCard from "@/components/PlatformCard";
 import { prisma } from "@/lib/prisma";
 
@@ -11,6 +12,12 @@ export default async function CompetitiveProgrammingPage() {
 
   return (
     <div className="space-y-6">
+      <PageHeader
+        trail={[{ label: "Home", href: "/" }, { label: "Competitive Programming" }]}
+        heading="Competitive Programming"
+        subtitle="Ratings, ranks, and results across platforms."
+      />
+
       {cards.map((card) => (
         <PlatformCard
           key={card.id}
