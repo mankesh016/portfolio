@@ -71,3 +71,11 @@ export async function reorderSkills(categoryId: string, orderedIds: string[]) {
   );
   revalidateAll();
 }
+
+export async function updateCategory(id: string, formData: FormData) {
+  await assertAdmin();
+  const name = (formData.get("name") as string).trim();
+  if (!name) return;
+  await prisma.skillCategory.update({ where: { id }, data: { name } });
+  revalidateAll();
+}
