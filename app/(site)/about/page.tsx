@@ -1,12 +1,23 @@
-import MiniWindow from "@/components/layout/MiniWindow";
+import { prisma } from "@/lib/prisma";
+import JourneyTimeline from "@/components/JourneyTimeline";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata = { title: "About" };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const events = await prisma.journeyEvent.findMany({ orderBy: { order: "asc" } });
+
   return (
-    <MiniWindow>
-      <p className="font-mono text-sm text-neutral-400">cd ./about</p>
-      <p className="mt-2 text-sm text-neutral-500">This page isn't built yet — check back soon.</p>
-    </MiniWindow>
+    <div>
+      <PageHeader
+        trail={[{ label: "Home", href: "/" }, { label: "About" }]}
+        heading="Journey"
+        subtitle="Milestones, side quests, and things I've shared publicly."
+      />
+
+      <div className="mt-8">
+        <JourneyTimeline events={events} />
+      </div>
+    </div>
   );
 }

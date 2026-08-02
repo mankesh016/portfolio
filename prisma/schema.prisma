@@ -136,3 +136,38 @@ model PlatformCardImage {
   caption String?
   order   Int          @default(0)
 }
+
+model Project {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  logoUrl          String?
+  shortDescription String
+  longDescription  String
+  mediaType        String   @default("none") // "none" | "image" | "video" | "youtube"
+  mediaUrl         String?
+  buttons          Json     // { type, label, url }[]
+  techStack        Json     // { name, iconSlug? }[]
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+}
+
+model JourneyEvent {
+  id            String   @id @default(cuid())
+  year          Int
+  month         Int?
+  dateLabel     String?
+  endYear       Int?
+  endMonth      Int?
+  endDateLabel  String?  // manual override, e.g. "Present"
+  statusLabel   String?  
+  statusVariant String   @default("neutral") // "neutral" | "highlight"
+  logoUrl       String?
+  heading       String
+  description   String
+  tags          Json     // { name: string; iconSlug?: string }[]
+  linkType      String?  // "youtube" | "linkedin" | "external"
+  linkLabel     String?
+  linkUrl       String?
+  order         Int      @default(0)
+}
