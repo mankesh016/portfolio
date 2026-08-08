@@ -2,6 +2,7 @@ import TechPill from "@/components/TechPill";
 import JourneyLinkButton from "@/components/JourneyLinkButton";
 import { formatJourneyDate } from "@/lib/journeyDate";
 import type { JourneyEvent } from "@prisma/client";
+import JourneyLinksRow from "@/components/JourneyLinkButton";
 
 export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) {
   return (
@@ -56,11 +57,7 @@ export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) 
                 </div>
               )}
 
-              {event.linkUrl && (
-                <div className="mt-2">
-                  <JourneyLinkButton type={event.linkType ?? "external"} label={event.linkLabel} url={event.linkUrl} />
-                </div>
-              )}
+              <JourneyLinksRow links={(event.links as any[]) ?? []} />
             </div>
           </div>
         );

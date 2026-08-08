@@ -166,8 +166,9 @@ model JourneyEvent {
   heading       String
   description   String
   tags          Json     // { name: string; iconSlug?: string }[]
-  linkType      String?  // "youtube" | "linkedin" | "external"
-  linkLabel     String?
-  linkUrl       String?
+  // linkType      String?  // "youtube" | "linkedin" | "external"
+  // linkLabel     String?
+  // linkUrl       String?
+  links         Json     @default("[]") // { type, label, url }[]
   order         Int      @default(0)
 }

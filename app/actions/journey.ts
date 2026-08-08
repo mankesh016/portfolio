@@ -26,6 +26,7 @@ function parseTags(text: string) {
 }
 
 function buildData(formData: FormData) {
+  const linksRaw = formData.get("links") as string;
   return {
     year: Number(formData.get("year")),
     month: formData.get("month") ? Number(formData.get("month")) : null,
@@ -39,9 +40,7 @@ function buildData(formData: FormData) {
     heading: formData.get("heading") as string,
     description: formData.get("description") as string,
     tags: parseTags(formData.get("tags") as string),
-    linkType: (formData.get("linkType") as string) || null,
-    linkLabel: (formData.get("linkLabel") as string) || null,
-    linkUrl: (formData.get("linkUrl") as string) || null,
+    links: linksRaw ? JSON.parse(linksRaw) : [],
   };
 }
 

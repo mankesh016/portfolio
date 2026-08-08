@@ -3,6 +3,7 @@
 import LogoUploadField from "./LogoUploadField";
 import { useState } from "react";
 import type { JourneyEvent } from "@prisma/client";
+import JourneyLinksEditor from "./JourneyLinksEditor";
 
 export default function JourneyEventForm({
   action,
@@ -11,7 +12,6 @@ export default function JourneyEventForm({
   action: (formData: FormData) => void;
   defaultValues?: JourneyEvent;
 }) {
-  const [linkType, setLinkType] = useState(defaultValues?.linkType ?? "");
   const [endDateLabel, setEndDateLabel] = useState(defaultValues?.endDateLabel ?? "");
   const tags = (defaultValues?.tags as { name: string; iconSlug?: string }[]) ?? [];
 
@@ -121,7 +121,7 @@ export default function JourneyEventForm({
         className="w-full rounded-md border border-neutral-200 px-3 py-2 text-sm"
       />
 
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <select
           name="linkType"
           value={linkType}
@@ -149,7 +149,9 @@ export default function JourneyEventForm({
             />
           </>
         )}
-      </div>
+      </div> */}
+
+      <JourneyLinksEditor defaultValue={(defaultValues?.links as any[]) ?? []} />
 
       <button type="submit" className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white">
         Save
