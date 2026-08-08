@@ -15,9 +15,13 @@ export default async function ExperiencePage() {
         heading="Experience"
         subtitle="Where I've worked and what I've built there."
       />
-      {items.map((exp) => (
-        <ExperienceCard key={exp.id} exp={exp} />
-      ))}
+      <div className="divide-y divide-neutral-100">
+        {items.map((exp) => (
+          <div key={exp.id} className="py-6 first:pt-0">
+            <ExperienceCard exp={exp} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

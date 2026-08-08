@@ -7,7 +7,7 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
   const bullets = exp.bulletsLong as string[];
 
   return (
-    <div className="rounded-lg border border-neutral-200 bg-white p-5">
+    <div className="">
       <div className="flex items-start gap-3">
         {exp.logoUrl && (
           <img src={exp.logoUrl} alt="" className="h-10 w-10 rounded-md border border-neutral-100 object-contain" />
