@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { deleteProject, moveProject } from "@/app/actions/projects";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { deleteProject, moveProject, toggleProjectFeatured } from "@/app/actions/projects";
+import { ArrowUp, ArrowDown, Star } from "lucide-react";
 
 export default async function AdminProjectsPage() {
   const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
@@ -30,6 +30,13 @@ export default async function AdminProjectsPage() {
               <form action={moveProject.bind(null, p.id, "down")}>
                 <button type="submit">
                   <ArrowDown className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
+                </button>
+              </form>
+              <form action={toggleProjectFeatured.bind(null, p.id, !p.isFeatured)}>
+                <button type="submit" aria-label="Toggle featured">
+                  <Star
+                    className={`h-4 w-4 ${p.isFeatured ? "fill-orange-400 text-orange-400" : "text-neutral-300"}`}
+                  />
                 </button>
               </form>
               <Link href={`/admin/projects/${p.id}/edit`} className="text-blue-600">

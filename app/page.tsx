@@ -6,9 +6,10 @@ import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
 import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
 import ContactCard from "@/components/ContactCard";
+import ProjectCard from "@/components/ProjectCard";
 
 export default async function HomePage() {
-  const [profile, infoLines, featuredSkills, featuredExperiences] = await Promise.all([
+  const [profile, infoLines, featuredSkills, featuredExperiences, featuredProjects] = await Promise.all([
     prisma.profile.findUnique({ where: { id: "singleton" } }),
     prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
     prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
@@ -16,6 +17,7 @@ export default async function HomePage() {
       where: { isFeatured: true },
       orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
     }),
+    prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
   ]);
 
   if (!profile) {
@@ -66,29 +68,70 @@ export default async function HomePage() {
 
       {profile.githubUsername && <GithubContributions username={profile.githubUsername} />}
 
+      {/* horizontical line seprator */}
+      <div className="h-px bg-neutral-200" />
+
       {/* Inherited teasers */}
       {featuredSkills.length > 0 && (
-        <MiniWindow title="Skills">
+        <div className="space-y-4">
+          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Skills</h2>
           <div className="flex flex-wrap gap-2.5">
             {featuredSkills.map((skill) => (
               <TechPill key={skill.id} name={skill.name} iconSlug={skill.iconSlug} />
             ))}
           </div>
-        </MiniWindow>
-      )}
-
-      {featuredExperiences.length > 0 && (
-        <MiniWindow title="Experience">
-          <div className="space-y-4">
-            {featuredExperiences.map((exp) => (
-              <ExperienceTeaserCard key={exp.id} exp={exp} />
-            ))}
-
-            <Link href="/experience" className="text-xs text-orange-600 hover:underline">
-              See more →
+          <div className="mt-4 flex justify-center">
+            <Link
+              href="/skills"
+              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
+            >
+              See More Skills →
             </Link>
           </div>
-        </MiniWindow>
+        </div>
+      )}
+
+      {/* horizontical line seprator */}
+      <div className="h-px bg-neutral-200" />
+
+      {featuredExperiences.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Experiences</h2>
+
+          {featuredExperiences.map((exp) => (
+            <ExperienceTeaserCard key={exp.id} exp={exp} />
+          ))}
+          <div className="mt-4 flex justify-center">
+            <Link
+              href="/experience"
+              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
+            >
+              See More Experiences →
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* horizontical line seprator */}
+      <div className="h-px bg-neutral-200" />
+
+      {featuredProjects.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Projects</h2>
+
+          {featuredProjects.map((p) => (
+            <ProjectCard key={p.id} project={p} />
+          ))}
+
+          <div className="mt-4 flex justify-center">
+            <Link
+              href="/projects"
+              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
+            >
+              See More Projects →
+            </Link>
+          </div>
+        </div>
       )}
 
       <ContactCard />

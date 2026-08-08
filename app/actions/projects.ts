@@ -90,3 +90,9 @@ export async function moveProject(id: string, direction: "up" | "down") {
   ]);
   revalidateAll();
 }
+
+export async function toggleProjectFeatured(id: string, isFeatured: boolean) {
+  await assertAdmin();
+  await prisma.project.update({ where: { id }, data: { isFeatured } });
+  revalidateAll();
+}

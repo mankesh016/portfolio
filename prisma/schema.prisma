@@ -149,6 +149,7 @@ model Project {
   buttons          Json     // { type, label, url }[]
   techStack        Json     // { name, iconSlug? }[]
   order            Int      @default(0)
+  isFeatured       Boolean  @default(false)
   createdAt        DateTime @default(now())
 }
 
