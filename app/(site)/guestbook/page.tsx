@@ -1,19 +1,20 @@
-import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import SignInButton from "@/components/SignInButton";
 import GuestbookForm from "@/components/GuestbookForm";
 import { approveEntry } from "@/app/actions/guestbook";
 import PageHeader from "@/components/PageHeader";
+import { Avatar } from "@/components/ui/avatar";
 
 export const metadata = { title: "Guestbook" };
 
 export default async function GuestbookPage() {
   const session = await auth();
   const isAdmin = session?.user?.isAdmin;
+  const userId = session?.user?.id;
 
   const entries = await prisma.guestbookEntry.findMany({
-    where: isAdmin ? {} : { approved: true },
+    where: isAdmin ? {} : userId ? { OR: [{ approved: true }, { userId }] } : { approved: true },
     include: { user: true },
     orderBy: { createdAt: "desc" },
   });
@@ -41,17 +42,13 @@ export default async function GuestbookPage() {
         <div className="mt-6 divide-y divide-neutral-100">
           {entries.map((entry) => (
             <div key={entry.id} className="flex gap-3 py-6">
-              {entry.isAnonymous ? (
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-neutral-300 text-sm font-semibold text-white">
-                  ?
-                </div>
-              ) : entry.user.image ? (
-                <img src={entry.user.image} alt="" className="h-9 w-9 shrink-0 rounded-full" />
-              ) : (
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-500 text-sm font-semibold text-white">
-                  {entry.user.name?.[0] ?? "?"}
-                </div>
-              )}
+              <Avatar
+                src={entry.isAnonymous ? null : entry.user.image}
+                shape="circle"
+                size="xs"
+                fit="cover"
+                fallback={entry.isAnonymous ? "?" : (entry.user.name?.[0] ?? "?")}
+              />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
                   <span className="font-semibold text-neutral-900">
@@ -64,7 +61,7 @@ export default async function GuestbookPage() {
                       year: "numeric",
                     })}
                   </span>
-                  {isAdmin && !entry.approved && (
+                  {!entry.approved && (
                     <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs text-yellow-700">pending</span>
                   )}
                 </div>

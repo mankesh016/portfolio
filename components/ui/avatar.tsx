@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +33,7 @@ const fallbackTextSize: Record<NonNullable<VariantProps<typeof avatarVariants>["
 type AvatarProps = VariantProps<typeof avatarVariants> & {
   src?: string | null;
   alt?: string;
-  /** Rendered when there's no src. If omitted (and no src), the avatar renders nothing. */
+  /** Rendered when there's no src (or the src fails to load). If omitted, the avatar renders nothing. */
   fallback?: string;
   fit?: "contain" | "cover";
   /**
@@ -44,20 +47,24 @@ type AvatarProps = VariantProps<typeof avatarVariants> & {
 };
 
 export function Avatar({ src, alt = "", fallback, shape, size = "sm", fit = "contain", padded = false, className }: AvatarProps) {
-  if (!src && !fallback) return null;
+  const [failed, setFailed] = useState(false);
+  const showImage = !!src && !failed;
 
-  if (src) {
+  if (!showImage && !fallback) return null;
+
+  if (showImage) {
     if (padded) {
       return (
         <div className={cn(avatarVariants({ shape, size }), "flex items-center justify-center bg-white", className)}>
-          <img src={src} alt={alt} className="h-[65%] w-[65%] object-contain" />
+          <img src={src!} alt={alt} className="h-[65%] w-[65%] object-contain" onError={() => setFailed(true)} />
         </div>
       );
     }
     return (
       <img
-        src={src}
+        src={src!}
         alt={alt}
+        onError={() => setFailed(true)}
         className={cn(avatarVariants({ shape, size }), fit === "contain" ? "object-contain" : "object-cover", "bg-white", className)}
       />
     );

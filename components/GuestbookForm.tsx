@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { createEntry } from "@/app/actions/guestbook";
+import { userSignOut } from "@/app/actions/auth";
 
 export default function GuestbookForm({ userName }: { userName: string }) {
   const [pending, setPending] = useState(false);
@@ -18,9 +19,18 @@ export default function GuestbookForm({ userName }: { userName: string }) {
       }}
       className="rounded-lg border border-neutral-200 p-4"
     >
-      <p className="text-sm text-neutral-500">
-        Signed in as <span className="font-medium text-neutral-800">{userName}</span>
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-neutral-500">
+          Signed in as <span className="font-medium text-neutral-800">{userName}</span>
+        </p>
+        <button
+          type="button"
+          onClick={() => userSignOut()}
+          className="text-xs text-neutral-400 hover:text-neutral-700 hover:underline"
+        >
+          Sign out
+        </button>
+      </div>
       <textarea
         name="message"
         required
