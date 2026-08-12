@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteProject, moveProject, toggleProjectFeatured } from "@/app/actions/projects";
-import { ArrowUp, ArrowDown, Star } from "lucide-react";
+import AdminEntityRow from "@/components/admin/AdminEntityRow";
 
 export default async function AdminProjectsPage() {
   const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
@@ -16,37 +16,16 @@ export default async function AdminProjectsPage() {
       </div>
       <div className="mt-4 space-y-2">
         {projects.map((p) => (
-          <div
+          <AdminEntityRow
             key={p.id}
-            className="flex items-center justify-between rounded-md border border-neutral-100 px-3 py-2 text-sm"
-          >
-            <span className="font-medium text-neutral-800">{p.name}</span>
-            <div className="flex items-center gap-3">
-              <form action={moveProject.bind(null, p.id, "up")}>
-                <button type="submit">
-                  <ArrowUp className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
-                </button>
-              </form>
-              <form action={moveProject.bind(null, p.id, "down")}>
-                <button type="submit">
-                  <ArrowDown className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
-                </button>
-              </form>
-              <form action={toggleProjectFeatured.bind(null, p.id, !p.isFeatured)}>
-                <button type="submit" aria-label="Toggle featured">
-                  <Star
-                    className={`h-4 w-4 ${p.isFeatured ? "fill-orange-400 text-orange-400" : "text-neutral-300"}`}
-                  />
-                </button>
-              </form>
-              <Link href={`/admin/projects/${p.id}/edit`} className="text-blue-600">
-                Edit
-              </Link>
-              <form action={deleteProject.bind(null, p.id)}>
-                <button className="text-red-600">Delete</button>
-              </form>
-            </div>
-          </div>
+            title={<span className="font-medium text-neutral-800">{p.name}</span>}
+            editHref={`/admin/projects/${p.id}/edit`}
+            onDelete={deleteProject.bind(null, p.id)}
+            onMoveUp={moveProject.bind(null, p.id, "up")}
+            onMoveDown={moveProject.bind(null, p.id, "down")}
+            featured={p.isFeatured}
+            onToggleFeatured={toggleProjectFeatured.bind(null, p.id, !p.isFeatured)}
+          />
         ))}
       </div>
     </div>

@@ -1,12 +1,11 @@
 import { formatRange } from "@/lib/duration";
 import type { Experience } from "@prisma/client";
+import { Avatar } from "@/components/ui/avatar";
 
 export default function ExperienceTeaserCard({ exp }: { exp: Experience }) {
   return (
     <div className="flex items-start gap-3">
-      {exp.logoUrl && (
-        <img src={exp.logoUrl} alt="" className="h-9 w-9 rounded-md border border-neutral-100 object-contain" />
-      )}
+      <Avatar src={exp.logoUrl} size="xs" />
       <div>
         <p className="text-sm font-medium text-neutral-800">
           {exp.title} <span className="text-neutral-400">· {exp.companyName}</span>

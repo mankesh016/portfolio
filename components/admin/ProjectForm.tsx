@@ -2,7 +2,8 @@
 
 import LogoUploadField from "./LogoUploadField";
 import ProjectMediaField from "./ProjectMediaField";
-import ProjectButtonsEditor from "./ProjectButtonsEditor";
+import TypedLinkListEditor from "./TypedLinkListEditor";
+import { PROJECT_BUTTON_TYPES, type ProjectButtonType } from "@/lib/projectButtonTypes";
 import type { Project } from "@prisma/client";
 
 export default function ProjectForm({
@@ -13,7 +14,7 @@ export default function ProjectForm({
   defaultValues?: Project;
 }) {
   const techStack = (defaultValues?.techStack as { name: string; iconSlug?: string }[]) ?? [];
-  const buttons = (defaultValues?.buttons as any[]) ?? [];
+  const buttons = (defaultValues?.buttons as { type: ProjectButtonType; label: string; url: string }[]) ?? [];
 
   return (
     <form action={action} className="space-y-4">
@@ -43,7 +44,14 @@ export default function ProjectForm({
       />
 
       <ProjectMediaField defaultValues={defaultValues} />
-      <ProjectButtonsEditor defaultValue={buttons} />
+      <TypedLinkListEditor<ProjectButtonType>
+        name="buttons"
+        defaultValue={buttons}
+        typeConfig={PROJECT_BUTTON_TYPES}
+        maxItems={4}
+        itemsLabel="Buttons (up to 4)"
+        addLabel="+ Add Button"
+      />
 
       <textarea
         name="techStack"

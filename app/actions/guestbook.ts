@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { assertAdmin } from "@/lib/auth-guards";
 
 export async function createEntry(formData: FormData) {
   const session = await auth();
@@ -25,8 +26,7 @@ export async function createEntry(formData: FormData) {
 }
 
 export async function approveEntry(id: string) {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
+  await assertAdmin();
 
   await prisma.guestbookEntry.update({ where: { id }, data: { approved: true } });
   revalidatePath("/guestbook");

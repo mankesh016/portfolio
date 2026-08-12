@@ -1,13 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
-}
+import { assertAdmin } from "@/lib/auth-guards";
+import { swapOrder } from "@/lib/reorder";
 
 function revalidateAll() {
   revalidatePath("/admin/cp");
@@ -76,13 +72,8 @@ export async function deleteCardImage(id: string) {
 export async function moveCardImage(cardId: string, id: string, direction: "up" | "down") {
   await assertAdmin();
   const images = await prisma.platformCardImage.findMany({ where: { cardId }, orderBy: { order: "asc" } });
-  const index = images.findIndex((img) => img.id === id);
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= images.length) return;
-
-  await prisma.$transaction([
-    prisma.platformCardImage.update({ where: { id: images[index].id }, data: { order: images[swapIndex].order } }),
-    prisma.platformCardImage.update({ where: { id: images[swapIndex].id }, data: { order: images[index].order } }),
-  ]);
+  await swapOrder(images, id, direction, (itemId, order) =>
+    prisma.platformCardImage.update({ where: { id: itemId }, data: { order } }),
+  );
   revalidateAll();
 }

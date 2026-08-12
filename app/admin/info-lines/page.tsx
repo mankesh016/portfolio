@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { createInfoLine, deleteInfoLine, toggleInfoLineFeatured, moveInfoLine } from "@/app/actions/infoLines";
 import InfoLineIcon from "@/components/icons/InfoLineIcon";
-import { Star, ArrowUp, ArrowDown, Trash2 } from "lucide-react";
+import AdminEntityRow from "@/components/admin/AdminEntityRow";
 
 export default async function AdminInfoLinesPage() {
   const lines = await prisma.infoLine.findMany({ orderBy: { order: "asc" } });
@@ -43,30 +43,16 @@ export default async function AdminInfoLinesPage() {
 
       <div className="mt-4 space-y-2">
         {lines.map((line) => (
-          <div key={line.id} className="flex items-center gap-3 rounded-md border border-neutral-100 px-3 py-2 text-sm">
-            <InfoLineIcon iconType={line.iconType} iconValue={line.iconValue} />
-            <span className="flex-1 text-neutral-700">{line.text}</span>
-            <form action={toggleInfoLineFeatured.bind(null, line.id, !line.featured)}>
-              <button type="submit" aria-label="Toggle featured">
-                <Star className={`h-4 w-4 ${line.featured ? "fill-orange-400 text-orange-400" : "text-neutral-300"}`} />
-              </button>
-            </form>
-            <form action={moveInfoLine.bind(null, line.id, "up")}>
-              <button type="submit">
-                <ArrowUp className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
-              </button>
-            </form>
-            <form action={moveInfoLine.bind(null, line.id, "down")}>
-              <button type="submit">
-                <ArrowDown className="h-4 w-4 text-neutral-400 hover:text-neutral-700" />
-              </button>
-            </form>
-            <form action={deleteInfoLine.bind(null, line.id)}>
-              <button type="submit">
-                <Trash2 className="h-4 w-4 text-red-400 hover:text-red-600" />
-              </button>
-            </form>
-          </div>
+          <AdminEntityRow
+            key={line.id}
+            leading={<InfoLineIcon iconType={line.iconType} iconValue={line.iconValue} />}
+            title={<span className="text-neutral-700">{line.text}</span>}
+            onDelete={deleteInfoLine.bind(null, line.id)}
+            onMoveUp={moveInfoLine.bind(null, line.id, "up")}
+            onMoveDown={moveInfoLine.bind(null, line.id, "down")}
+            featured={line.featured}
+            onToggleFeatured={toggleInfoLineFeatured.bind(null, line.id, !line.featured)}
+          />
         ))}
       </div>
     </div>

@@ -1,13 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
-}
+import { assertAdmin } from "@/lib/auth-guards";
+import { swapOrder } from "@/lib/reorder";
 
 function revalidateAll() {
   revalidatePath("/admin/info-lines");
@@ -45,13 +41,8 @@ export async function toggleInfoLineFeatured(id: string, featured: boolean) {
 export async function moveInfoLine(id: string, direction: "up" | "down") {
   await assertAdmin();
   const lines = await prisma.infoLine.findMany({ orderBy: { order: "asc" } });
-  const index = lines.findIndex((l) => l.id === id);
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= lines.length) return;
-
-  await prisma.$transaction([
-    prisma.infoLine.update({ where: { id: lines[index].id }, data: { order: lines[swapIndex].order } }),
-    prisma.infoLine.update({ where: { id: lines[swapIndex].id }, data: { order: lines[index].order } }),
-  ]);
+  await swapOrder(lines, id, direction, (itemId, order) =>
+    prisma.infoLine.update({ where: { id: itemId }, data: { order } }),
+  );
   revalidateAll();
 }

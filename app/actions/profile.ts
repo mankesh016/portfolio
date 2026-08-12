@@ -1,13 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
-}
+import { assertAdmin } from "@/lib/auth-guards";
 
 export async function updateProfile(formData: FormData) {
   await assertAdmin();

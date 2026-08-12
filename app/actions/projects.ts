@@ -1,15 +1,11 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/slugify";
 import { extractYoutubeId } from "@/lib/youtube";
-
-async function assertAdmin() {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
-}
+import { assertAdmin } from "@/lib/auth-guards";
+import { swapOrder } from "@/lib/reorder";
 
 function revalidateAll(slug?: string) {
   revalidatePath("/admin/projects");
@@ -80,14 +76,9 @@ export async function deleteProject(id: string) {
 export async function moveProject(id: string, direction: "up" | "down") {
   await assertAdmin();
   const projects = await prisma.project.findMany({ orderBy: { order: "asc" } });
-  const index = projects.findIndex((p) => p.id === id);
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= projects.length) return;
-
-  await prisma.$transaction([
-    prisma.project.update({ where: { id: projects[index].id }, data: { order: projects[swapIndex].order } }),
-    prisma.project.update({ where: { id: projects[swapIndex].id }, data: { order: projects[index].order } }),
-  ]);
+  await swapOrder(projects, id, direction, (itemId, order) =>
+    prisma.project.update({ where: { id: itemId }, data: { order } }),
+  );
   revalidateAll();
 }
 
