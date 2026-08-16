@@ -98,6 +98,19 @@ model Experience {
   createdAt    DateTime @default(now())
 }
 
+model Education {
+  id              String   @id @default(cuid())
+  institutionName String
+  institutionUrl  String?
+  logoUrl         String?
+  degree          String
+  startYear       Int
+  endYear         Int?
+  isCurrent       Boolean  @default(false)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+}
+
 model Profile {
   id             String  @id @default("singleton")
   name           String

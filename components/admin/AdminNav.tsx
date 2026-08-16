@@ -8,6 +8,7 @@ const ADMIN_SECTIONS = [
   { label: "Info Lines", href: "/admin/info-lines" },
   { label: "Skills", href: "/admin/skills" },
   { label: "Experience", href: "/admin/experience" },
+  { label: "Education", href: "/admin/education" },
   { label: "Projects", href: "/admin/projects" },
   { label: "CP", href: "/admin/cp" },
   { label: "Journey", href: "/admin/journey" },

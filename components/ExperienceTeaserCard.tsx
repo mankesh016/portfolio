@@ -7,7 +7,7 @@ export default function ExperienceTeaserCard({ exp }: { exp: Experience }) {
     <div className="flex items-start gap-3">
       <Avatar src={exp.logoUrl} size="xs" />
       <div>
-        <p className="text-sm font-medium text-neutral-800">
+        <p className="text-md font-semibold text-neutral-800">
           {exp.title} <span className="text-neutral-400">· {exp.companyName}</span>
         </p>
         <p className="text-xs text-neutral-400">

@@ -11,6 +11,11 @@ export function formatRange(
   return `${start} — ${end}`;
 }
 
+export function formatYearRange(startYear: number, endYear?: number | null, isCurrent?: boolean) {
+  const end = isCurrent ? "Present" : (endYear ?? startYear);
+  return `${startYear} – ${end}`;
+}
+
 export function formatDuration(
   startMonth: number,
   startYear: number,

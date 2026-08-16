@@ -5,11 +5,12 @@ import TechPill from "@/components/TechPill";
 import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
 import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
+import EducationCard from "@/components/EducationCard";
 import ContactCard from "@/components/ContactCard";
 import ProjectCard from "@/components/ProjectCard";
 
 export default async function HomePage() {
-  const [profile, infoLines, featuredSkills, featuredExperiences, featuredProjects] = await Promise.all([
+  const [profile, infoLines, featuredSkills, featuredExperiences, educations, featuredProjects] = await Promise.all([
     prisma.profile.findUnique({ where: { id: "singleton" } }),
     prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
     prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
@@ -17,6 +18,7 @@ export default async function HomePage() {
       where: { isFeatured: true },
       orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
     }),
+    prisma.education.findMany({ orderBy: { order: "asc" } }),
     prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
   ]);
 
@@ -108,6 +110,21 @@ export default async function HomePage() {
             >
               See More Experiences →
             </Link>
+          </div>
+        </div>
+      )}
+
+      {/* horizontical line seprator */}
+      <div className="h-px bg-neutral-200" />
+
+      {educations.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Education</h2>
+
+          <div className="space-y-4">
+            {educations.map((edu) => (
+              <EducationCard key={edu.id} education={edu} />
+            ))}
           </div>
         </div>
       )}
