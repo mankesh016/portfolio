@@ -150,6 +150,33 @@ model PlatformCardImage {
   order   Int          @default(0)
 }
 
+// Home page "Competitive Programming" teaser — deliberately separate from PlatformCard
+// (which drives the full /competitive-programming page): this is a curated, stylized
+// snapshot the admin maintains independently for the home page.
+model CpProfileCard {
+  id           String   @id @default(cuid())
+  platform     String // e.g. "Codeforces"
+  iconSlug     String? // simple-icons slug; falls back to a guess from `platform` when blank
+  sinceMonth   Int?
+  sinceYear    Int
+  rankTitle    String // e.g. "Candidate Master"
+  rankSubtitle String? // optional caption under the rank, e.g. "Among Top 0.9% in Country"
+  peak         Int
+  contests     Int
+  solved       Int
+  bestRank     Int
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model CpAchievementCard {
+  id          String   @id @default(cuid())
+  label       String // e.g. "ICPC 2025 · Kanpur Regionals"
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
 model Project {
   id               String   @id @default(cuid())
   slug             String   @unique

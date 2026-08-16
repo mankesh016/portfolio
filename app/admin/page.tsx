@@ -8,6 +8,11 @@ const SECTIONS = [
   { label: "Education", href: "/admin/education", desc: "Institutions, degrees, and years" },
   { label: "Projects", href: "/admin/projects", desc: "Project logos, media, buttons, tech stack" },
   { label: "Competitive Programming", href: "/admin/cp", desc: "Platform cards, images, best ranks" },
+  {
+    label: "CP Highlights",
+    href: "/admin/cp-highlights",
+    desc: "Home page rating/achievement cards (separate from the CP page above)",
+  },
   { label: "Journey", href: "/admin/journey", desc: "About page timeline of milestones" },
 ];
 

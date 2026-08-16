@@ -11,6 +11,7 @@ const ADMIN_SECTIONS = [
   { label: "Education", href: "/admin/education" },
   { label: "Projects", href: "/admin/projects" },
   { label: "CP", href: "/admin/cp" },
+  { label: "CP Highlights", href: "/admin/cp-highlights" },
   { label: "Journey", href: "/admin/journey" },
 ];
 

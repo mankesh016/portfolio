@@ -6,21 +6,25 @@ import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
 import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
 import EducationCard from "@/components/EducationCard";
+import CpHighlights from "@/components/CpHighlights";
 import ContactCard from "@/components/ContactCard";
 import ProjectCard from "@/components/ProjectCard";
 
 export default async function HomePage() {
-  const [profile, infoLines, featuredSkills, featuredExperiences, educations, featuredProjects] = await Promise.all([
-    prisma.profile.findUnique({ where: { id: "singleton" } }),
-    prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
-    prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
-    prisma.experience.findMany({
-      where: { isFeatured: true },
-      orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
-    }),
-    prisma.education.findMany({ orderBy: { order: "asc" } }),
-    prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
-  ]);
+  const [profile, infoLines, featuredSkills, featuredExperiences, educations, featuredProjects, cpProfileCards, cpAchievementCards] =
+    await Promise.all([
+      prisma.profile.findUnique({ where: { id: "singleton" } }),
+      prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
+      prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
+      prisma.experience.findMany({
+        where: { isFeatured: true },
+        orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
+      }),
+      prisma.education.findMany({ orderBy: { order: "asc" } }),
+      prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
+      prisma.cpProfileCard.findMany({ orderBy: { order: "asc" } }),
+      prisma.cpAchievementCard.findMany({ orderBy: { order: "asc" } }),
+    ]);
 
   if (!profile) {
     return <p className="text-sm text-neutral-400">Profile not set up yet — visit /admin/profile.</p>;
@@ -150,6 +154,8 @@ export default async function HomePage() {
           </div>
         </div>
       )}
+
+      <CpHighlights profileCards={cpProfileCards} achievementCards={cpAchievementCards} />
 
       <ContactCard />
     </div>

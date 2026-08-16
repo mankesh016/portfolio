@@ -1,3 +1,9 @@
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export function formatMonthYear(month: number, year: number) {
+  return `${MONTHS[month - 1]} ${year}`;
+}
+
 export function formatRange(
   startMonth: number,
   startYear: number,
@@ -5,9 +11,8 @@ export function formatRange(
   endYear?: number | null,
   isCurrent?: boolean,
 ) {
-  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const start = `${MONTHS[startMonth - 1]} ${startYear}`;
-  const end = isCurrent ? "Present" : `${MONTHS[(endMonth ?? startMonth) - 1]} ${endYear ?? startYear}`;
+  const start = formatMonthYear(startMonth, startYear);
+  const end = isCurrent ? "Present" : formatMonthYear(endMonth ?? startMonth, endYear ?? startYear);
   return `${start} — ${end}`;
 }
 
