@@ -98,6 +98,42 @@ model Experience {
   createdAt    DateTime @default(now())
 }
 
+model Education {
+  id                 String   @id @default(cuid())
+  institutionName    String
+  institutionUrl     String?
+  logoUrl            String?
+  degree             String
+  location           String?
+  startYear          Int
+  endYear            Int?
+  isCurrent          Boolean  @default(false)
+  cgpaAttained       Float?
+  cgpaTotal          Float?
+  relevantCoursework String?
+  order              Int      @default(0)
+  createdAt          DateTime @default(now())
+}
+
+// Hero-section extras — kept separate from Profile so the hero's "currently" facts
+// (open-to-work status, quick-fact entries) can evolve independently of the core bio.
+model HeroProfile {
+  id             String  @id @default("singleton")
+  mail           String?
+  resumeUrl      String?
+  location       String?
+  isOpenToWork   Boolean @default(false)
+  openToWorkText String? // e.g. "Open to full-time SWE roles"
+}
+
+model HeroEntry {
+  id      String  @id @default(cuid())
+  logoUrl String?
+  text    String // *word* renders bold, e.g. "Ex-intern, *Google*"
+  link    String?
+  order   Int     @default(0)
+}
+
 model Profile {
   id             String  @id @default("singleton")
   name           String
@@ -106,16 +142,6 @@ model Profile {
   photoSmallUrl  String?
   photoMediumUrl String?
   githubUsername String?
-}
-
-model InfoLine {
-  id        String  @id @default(cuid())
-  iconType  String  // "simpleicon" | "lucide"
-  iconValue String  // simple-icons slug, or a key from lib/lucideIcons.ts
-  text      String
-  href      String?
-  featured  Boolean @default(true)
-  order     Int     @default(0)
 }
 
 model PlatformCard {
@@ -135,6 +161,33 @@ model PlatformCardImage {
   url     String
   caption String?
   order   Int          @default(0)
+}
+
+// Home page "Competitive Programming" teaser — deliberately separate from PlatformCard
+// (which drives the full /competitive-programming page): this is a curated, stylized
+// snapshot the admin maintains independently for the home page.
+model CpProfileCard {
+  id           String   @id @default(cuid())
+  platform     String // e.g. "Codeforces"
+  iconSlug     String? // simple-icons slug; falls back to a guess from `platform` when blank
+  sinceMonth   Int?
+  sinceYear    Int
+  rankTitle    String // e.g. "Candidate Master"
+  rankSubtitle String? // optional caption under the rank, e.g. "Among Top 0.9% in Country"
+  peak         Int
+  contests     Int
+  solved       Int
+  bestRank     Int
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model CpAchievementCard {
+  id          String   @id @default(cuid())
+  label       String // e.g. "ICPC 2025 · Kanpur Regionals"
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
 }
 
 model Project {

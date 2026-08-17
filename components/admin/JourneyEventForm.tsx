@@ -3,7 +3,8 @@
 import LogoUploadField from "./LogoUploadField";
 import { useState } from "react";
 import type { JourneyEvent } from "@prisma/client";
-import JourneyLinksEditor from "./JourneyLinksEditor";
+import TypedLinkListEditor from "./TypedLinkListEditor";
+import { JOURNEY_LINK_TYPES, type JourneyLinkType } from "@/lib/journeyLinkTypes";
 
 export default function JourneyEventForm({
   action,
@@ -121,37 +122,13 @@ export default function JourneyEventForm({
         className="w-full rounded-md border border-neutral-200 px-3 py-2 text-sm"
       />
 
-      {/* <div className="flex gap-2">
-        <select
-          name="linkType"
-          value={linkType}
-          onChange={(e) => setLinkType(e.target.value)}
-          className="rounded-md border border-neutral-200 px-2 py-2 text-sm"
-        >
-          <option value="">No link</option>
-          <option value="youtube">YouTube</option>
-          <option value="linkedin">LinkedIn</option>
-          <option value="external">External</option>
-        </select>
-        {linkType && (
-          <>
-            <input
-              name="linkLabel"
-              placeholder="Label (optional, auto if blank)"
-              defaultValue={defaultValues?.linkLabel ?? ""}
-              className="flex-1 rounded-md border border-neutral-200 px-3 py-2 text-sm"
-            />
-            <input
-              name="linkUrl"
-              placeholder="URL"
-              defaultValue={defaultValues?.linkUrl ?? ""}
-              className="flex-1 rounded-md border border-neutral-200 px-3 py-2 text-sm"
-            />
-          </>
-        )}
-      </div> */}
-
-      <JourneyLinksEditor defaultValue={(defaultValues?.links as any[]) ?? []} />
+      <TypedLinkListEditor<JourneyLinkType>
+        name="links"
+        defaultValue={(defaultValues?.links as { type: JourneyLinkType; label: string; url: string }[]) ?? []}
+        typeConfig={JOURNEY_LINK_TYPES}
+        itemsLabel="Links (optional, any number)"
+        addLabel="+ Add Link"
+      />
 
       <button type="submit" className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white">
         Save

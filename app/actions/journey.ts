@@ -1,13 +1,9 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
-
-async function assertAdmin() {
-  const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Not authorized");
-}
+import { assertAdmin } from "@/lib/auth-guards";
+import { swapOrder } from "@/lib/reorder";
 
 function revalidateAll() {
   revalidatePath("/admin/journey");
@@ -66,13 +62,8 @@ export async function deleteJourneyEvent(id: string) {
 export async function moveJourneyEvent(id: string, direction: "up" | "down") {
   await assertAdmin();
   const events = await prisma.journeyEvent.findMany({ orderBy: { order: "asc" } });
-  const index = events.findIndex((e) => e.id === id);
-  const swapIndex = direction === "up" ? index - 1 : index + 1;
-  if (swapIndex < 0 || swapIndex >= events.length) return;
-
-  await prisma.$transaction([
-    prisma.journeyEvent.update({ where: { id: events[index].id }, data: { order: events[swapIndex].order } }),
-    prisma.journeyEvent.update({ where: { id: events[swapIndex].id }, data: { order: events[index].order } }),
-  ]);
+  await swapOrder(events, id, direction, (itemId, order) =>
+    prisma.journeyEvent.update({ where: { id: itemId }, data: { order } }),
+  );
   revalidateAll();
 }

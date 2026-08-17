@@ -1,4 +1,8 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { SOCIAL_LINKS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import CodeIcon from "../icons/CodeIcon";
 
 const CODE_HANDLES = [
@@ -9,8 +13,10 @@ const CODE_HANDLES = [
 ];
 
 export default function Footer() {
+  const isHome = usePathname() === "/";
+
   return (
-    <footer className="mx-auto mt-16 max-w-4xl px-4 pb-10 pt-8 sm:px-8">
+    <footer className={cn("mx-auto max-w-4xl px-4 pb-10 pt-8 sm:px-8", isHome ? "mt-0" : "mt-16")}>
       <div className="flex flex-wrap items-center justify-center divide-x divide-neutral-200 border-t border-neutral-200 pt-6 text-sm text-neutral-500">
         {CODE_HANDLES.map((h) => (
           <a

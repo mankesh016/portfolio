@@ -1,6 +1,7 @@
 import TechPill from "@/components/TechPill";
 import { formatRange, formatDuration } from "@/lib/duration";
 import type { Experience } from "@prisma/client";
+import { Avatar } from "@/components/ui/avatar";
 
 export default function ExperienceCard({ exp }: { exp: Experience }) {
   const skills = exp.skillsUsed as { name: string; iconSlug?: string }[];
@@ -9,9 +10,7 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
   return (
     <div>
       <div className="flex items-start gap-3">
-        {exp.logoUrl && (
-          <img src={exp.logoUrl} alt="" className="h-10 w-10 rounded-md border border-neutral-100 object-contain" />
-        )}
+        <Avatar src={exp.logoUrl} size="sm" />
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <a

@@ -1,23 +1,44 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import MiniWindow from "@/components/layout/MiniWindow";
-import TechPill from "@/components/TechPill";
-import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
-import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
+import SkillsHighlights from "@/components/SkillsHighlights";
+import ExperienceHighlights from "@/components/ExperienceHighlights";
+import EducationHighlights from "@/components/EducationHighlights";
+import CpHighlights from "@/components/CpHighlights";
+import ProjectsHighlights from "@/components/ProjectsHighlights";
 import ContactCard from "@/components/ContactCard";
-import ProjectCard from "@/components/ProjectCard";
+import CopyMailButton from "@/components/CopyMailButton";
+import { cn } from "@/lib/utils";
+import { serif } from "@/lib/fonts";
+import { renderBoldText } from "@/lib/boldText";
 
 export default async function HomePage() {
-  const [profile, infoLines, featuredSkills, featuredExperiences, featuredProjects] = await Promise.all([
+  const [
+    profile,
+    heroProfile,
+    heroEntries,
+    skillCategories,
+    featuredExperiences,
+    educations,
+    featuredProjects,
+    cpProfileCards,
+    cpAchievementCards,
+  ] = await Promise.all([
     prisma.profile.findUnique({ where: { id: "singleton" } }),
-    prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
-    prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
+    prisma.heroProfile.findUnique({ where: { id: "singleton" } }),
+    prisma.heroEntry.findMany({ orderBy: { order: "asc" } }),
+    prisma.skillCategory.findMany({
+      orderBy: { order: "asc" },
+      include: { skills: { where: { featured: true }, orderBy: { order: "asc" } } },
+    }),
     prisma.experience.findMany({
       where: { isFeatured: true },
       orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
     }),
+    prisma.education.findMany({ orderBy: { order: "asc" } }),
     prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
+    prisma.cpProfileCard.findMany({ orderBy: { order: "asc" } }),
+    prisma.cpAchievementCard.findMany({ orderBy: { order: "asc" } }),
   ]);
 
   if (!profile) {
@@ -27,112 +48,95 @@ export default async function HomePage() {
   return (
     <div className="space-y-8">
       {/* Hero — custom, not inherited */}
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-        {profile.photoMediumUrl && (
-          <img
-            src={profile.photoMediumUrl}
-            alt={profile.name}
-            className="h-28 w-28 shrink-0 rounded-full border border-neutral-200 object-cover"
-          />
-        )}
-        <div className="flex flex-col justify-center">
-          <h1 className="text-2xl font-normal text-neutral-700">Hi, I'm</h1>
-          <h1 className="text-3xl font-bold text-neutral-900">{profile.name}</h1>
-          <p className="mt-1 font-mono text-md text-neutral-500">{profile.tagline}</p>
-        </div>
-      </div>
-
-      <p className="text-neutral-600">{profile.about}</p>
-
-      <div className="space-y-2">
-        {infoLines.map((line) =>
-          line.href ? (
-            <a
-              key={line.id}
-              href={line.href}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-3 text-sm text-neutral-600 hover:underline"
-            >
-              <InfoLineIcon iconType={line.iconType} iconValue={line.iconValue} />
-              {line.text}
-            </a>
-          ) : (
-            <div key={line.id} className="flex items-center gap-3 text-sm text-neutral-600">
-              <InfoLineIcon iconType={line.iconType} iconValue={line.iconValue} />
-              {line.text}
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+        <div className="flex-1">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+            {profile.photoMediumUrl && (
+              <img
+                src={profile.photoMediumUrl}
+                alt={profile.name}
+                className="h-30 w-30 shrink-0 rounded-full border border-neutral-200 object-cover sm:h-36 sm:w-36"
+              />
+            )}
+            <div className="flex flex-col justify-center">
+              {heroProfile?.isOpenToWork && heroProfile.openToWorkText ? (
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-stone-300 bg-[#fdfbf6] px-4 py-2 font-mono text-xs tracking-wide text-neutral-600 uppercase">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="absolute -inset-0.5 animate-[dot-blink-a_3s_ease-in-out_infinite] rounded-full bg-green-500 blur-xs" />
+                    <span className="relative h-2 w-2 rounded-full bg-green-500" />
+                  </span>
+                  {heroProfile.openToWorkText}
+                </span>
+              ) : (
+                <h1 className="text-2xl font-normal text-neutral-700">Hi, I'm</h1>
+              )}
+              <h1 className="mt-2 text-3xl font-bold text-neutral-900 sm:text-4xl">{profile.name}</h1>
+              <p className={cn(serif.className, "mt-2 text-md text-neutral-500 italic")}>{profile.tagline}</p>
             </div>
-          ),
+          </div>
+
+          <p className="mt-6 text-neutral-600">{profile.about}</p>
+
+          {(heroProfile?.resumeUrl || heroProfile?.mail) && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {heroProfile.resumeUrl && (
+                <a
+                  href={heroProfile.resumeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+                >
+                  Resume
+                </a>
+              )}
+              {heroProfile.mail && <CopyMailButton mail={heroProfile.mail} />}
+            </div>
+          )}
+        </div>
+
+        {heroEntries.length > 0 && (
+          <div className="w-full shrink-0 rounded-2xl border border-stone-300 bg-[#fdfbf6] p-6 lg:w-60">
+            <p className="font-mono text-xs tracking-wide text-neutral-400 uppercase">Currently</p>
+            <div className="mt-4 space-y-3">
+              {heroEntries.map((entry) => {
+                const content = (
+                  <>
+                    {entry.logoUrl && <img src={entry.logoUrl} alt="" className="h-5 w-5 shrink-0 object-contain" />}
+                    <span className="text-sm text-neutral-700">{renderBoldText(entry.text)}</span>
+                  </>
+                );
+                return entry.link ? (
+                  <a
+                    key={entry.id}
+                    href={entry.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 hover:underline"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div key={entry.id} className="flex items-center gap-3">
+                    {content}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 
       {profile.githubUsername && <GithubContributions username={profile.githubUsername} />}
 
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
+      <ExperienceHighlights experiences={featuredExperiences} />
 
-      {/* Inherited teasers */}
-      {featuredSkills.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Skills</h2>
-          <div className="flex flex-wrap gap-2.5">
-            {featuredSkills.map((skill) => (
-              <TechPill key={skill.id} name={skill.name} iconSlug={skill.iconSlug} />
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/skills"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Skills →
-            </Link>
-          </div>
-        </div>
-      )}
+      <EducationHighlights educations={educations} />
 
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
+      <ProjectsHighlights projects={featuredProjects} />
 
-      {featuredExperiences.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Experiences</h2>
+      <SkillsHighlights categories={skillCategories} />
 
-          {featuredExperiences.map((exp) => (
-            <ExperienceTeaserCard key={exp.id} exp={exp} />
-          ))}
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/experience"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Experiences →
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
-
-      {featuredProjects.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Projects</h2>
-
-          {featuredProjects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
-
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/projects"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Projects →
-            </Link>
-          </div>
-        </div>
-      )}
+      <CpHighlights profileCards={cpProfileCards} achievementCards={cpAchievementCards} />
 
       <ContactCard />
     </div>

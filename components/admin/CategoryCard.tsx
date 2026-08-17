@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, Trash2, Pencil, Check, X } from "lucide-react";
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import SortableList from "./SortableList";
+import { Card } from "@/components/ui/card";
 import SkillRow from "./SkillRow";
 import { createSkill, deleteCategory, reorderSkills, updateCategory } from "@/app/actions/skills";
 import type { CategoryWithSkills } from "@/lib/types";
+import type { Skill } from "@prisma/client";
 
 export default function CategoryCard({ category }: { category: CategoryWithSkills }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: category.id });
@@ -19,15 +20,9 @@ export default function CategoryCard({ category }: { category: CategoryWithSkill
   const [name, setName] = useState(category.name);
   useEffect(() => setName(category.name), [category.name]);
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }));
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
 
-  function handleSkillDragEnd(event: any) {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = skills.findIndex((s) => s.id === active.id);
-    const newIndex = skills.findIndex((s) => s.id === over.id);
-    const reordered = arrayMove(skills, oldIndex, newIndex);
+  function handleSkillReorder(reordered: Skill[]) {
     setSkills(reordered);
     reorderSkills(
       category.id,
@@ -49,7 +44,7 @@ export default function CategoryCard({ category }: { category: CategoryWithSkill
   }
 
   return (
-    <div ref={setNodeRef} style={style} className="rounded-lg border border-neutral-200 bg-white p-4">
+    <Card ref={setNodeRef} style={style}>
       <div className="flex items-center gap-2">
         <button
           {...attributes}
@@ -105,15 +100,12 @@ export default function CategoryCard({ category }: { category: CategoryWithSkill
         </form>
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleSkillDragEnd}>
-        <SortableContext items={skills.map((s) => s.id)} strategy={verticalListSortingStrategy}>
-          <div className="mt-3 space-y-1">
-            {skills.map((skill) => (
-              <SkillRow key={skill.id} skill={skill} />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      <SortableList
+        items={skills}
+        onReorder={handleSkillReorder}
+        className="mt-3 space-y-1"
+        renderItem={(skill) => <SkillRow key={skill.id} skill={skill} />}
+      />
 
       <form action={createSkill.bind(null, category.id)} className="mt-3 flex flex-wrap items-center gap-2">
         <input
@@ -134,6 +126,6 @@ export default function CategoryCard({ category }: { category: CategoryWithSkill
           Add
         </button>
       </form>
-    </div>
+    </Card>
   );
 }

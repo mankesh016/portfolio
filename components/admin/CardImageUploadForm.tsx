@@ -2,21 +2,17 @@
 
 import { useState } from "react";
 import { addCardImage } from "@/app/actions/platformCards";
+import { useImageUpload } from "@/lib/hooks/useImageUpload";
 
 export default function CardImageUploadForm({ cardId }: { cardId: string }) {
   const [url, setUrl] = useState("");
-  const [uploading, setUploading] = useState(false);
+  const { upload, uploading } = useImageUpload<{ url: string }>("/api/admin/upload-card-image");
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
-    const body = new FormData();
-    body.append("file", file);
-    const res = await fetch("/api/admin/upload-card-image", { method: "POST", body });
-    const data = await res.json();
+    const data = await upload(file);
     setUrl(data.url);
-    setUploading(false);
   }
 
   return (

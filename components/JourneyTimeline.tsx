@@ -1,8 +1,9 @@
 import TechPill from "@/components/TechPill";
-import JourneyLinkButton from "@/components/JourneyLinkButton";
+import JourneyLinksRow from "@/components/JourneyLinkButton";
 import { formatJourneyDate } from "@/lib/journeyDate";
 import type { JourneyEvent } from "@prisma/client";
-import JourneyLinksRow from "@/components/JourneyLinkButton";
+import { Avatar } from "@/components/ui/avatar";
+import type { JourneyLinkType } from "@/lib/journeyLinkTypes";
 
 export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) {
   return (
@@ -12,13 +13,7 @@ export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) 
         return (
           <div key={event.id} className="flex gap-4">
             <div className="flex flex-col items-center">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-neutral-200 bg-white">
-                {event.logoUrl ? (
-                  <img src={event.logoUrl} alt="" className="h-full w-full object-cover" />
-                ) : (
-                  <span className="text-xs font-semibold text-neutral-300">{event.heading[0]}</span>
-                )}
-              </div>
+              <Avatar src={event.logoUrl} shape="circle" size="sm" padded fallback={event.heading[0]} />
               {i < events.length - 1 && <div className="my-1 w-px flex-1 bg-neutral-200" />}
             </div>
 
@@ -49,15 +44,15 @@ export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) 
               <h3 className="mt-1 font-semibold text-neutral-900">{event.heading}</h3>
               <p className="mt-1 text-sm text-neutral-500">{event.description}</p>
 
-              {tags.length > 0 && (
+              {/* {tags.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <TechPill key={tag.name} name={tag.name} iconSlug={tag.iconSlug ?? null} />
                   ))}
                 </div>
-              )}
+              )} */}
 
-              <JourneyLinksRow links={(event.links as any[]) ?? []} />
+              {/* <JourneyLinksRow links={(event.links as { type: JourneyLinkType; label: string; url: string }[]) ?? []} /> */}
             </div>
           </div>
         );

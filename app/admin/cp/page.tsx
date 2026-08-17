@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { deleteCard } from "@/app/actions/platformCards";
+import AdminEntityRow from "@/components/admin/AdminEntityRow";
 
 export default async function AdminCPPage() {
   const cards = await prisma.platformCard.findMany({ orderBy: { order: "asc" } });
@@ -15,23 +16,17 @@ export default async function AdminCPPage() {
       </div>
       <div className="mt-4 space-y-2">
         {cards.map((card) => (
-          <div
+          <AdminEntityRow
             key={card.id}
-            className="flex items-center justify-between rounded-md border border-neutral-100 px-3 py-2 text-sm"
-          >
-            <div>
-              <span className="font-medium text-neutral-800">{card.heading}</span>{" "}
-              {card.subtitle && <span className="text-neutral-400">— {card.subtitle}</span>}
-            </div>
-            <div className="flex gap-3">
-              <Link href={`/admin/cp/${card.id}/edit`} className="text-blue-600">
-                Edit
-              </Link>
-              <form action={deleteCard.bind(null, card.id)}>
-                <button className="text-red-600">Delete</button>
-              </form>
-            </div>
-          </div>
+            title={
+              <>
+                <span className="font-medium text-neutral-800">{card.heading}</span>{" "}
+                {card.subtitle && <span className="text-neutral-400">— {card.subtitle}</span>}
+              </>
+            }
+            editHref={`/admin/cp/${card.id}/edit`}
+            onDelete={deleteCard.bind(null, card.id)}
+          />
         ))}
       </div>
     </div>
