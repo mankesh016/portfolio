@@ -14,7 +14,7 @@ export default function MobileNavMenu() {
     <div className="relative lg:hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="flex h-9 w-9 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100"
+        className="flex h-9 w-9 items-center justify-center rounded-full text-stone-500 transition-colors hover:bg-stone-100"
         aria-label="Toggle menu"
       >
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -23,8 +23,8 @@ export default function MobileNavMenu() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-12 z-50 w-56 rounded-2xl border border-neutral-200 bg-white p-2 shadow-lg">
-            <nav className="flex flex-col">
+          <div className="absolute right-0 top-12 z-50 w-56 rounded-2xl border border-stone-300 bg-[#fdfbf6] p-2 shadow-lg">
+            <nav className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => {
                 const active = pathname === item.href;
                 return (
@@ -32,9 +32,9 @@ export default function MobileNavMenu() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className={`rounded-lg px-3 py-2.5 text-sm ${
-                      active ? "font-semibold text-neutral-900" : "text-neutral-500"
-                    } hover:bg-neutral-50`}
+                    className={`rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                      active ? "font-semibold text-stone-900" : "text-stone-500"
+                    } hover:bg-stone-100 hover:text-amber-700`}
                   >
                     {item.label}
                   </Link>

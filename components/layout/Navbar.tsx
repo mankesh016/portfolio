@@ -17,9 +17,9 @@ export default function Navbar({ photoUrl }: { photoUrl?: string | null }) {
   const showPhoto = mounted && !!photoUrl && !isHome;
 
   return (
-    <div className="sticky top-4 z-50 mx-auto flex max-w-4xl items-center justify-between gap-4 rounded-full lg:border lg:border-neutral-200 lg:bg-white px-5 py-2.5 lg:shadow-sm">
+    <div className="sticky top-4 z-50 mx-auto flex max-w-4xl items-center justify-between gap-4 rounded-full lg:border lg:border-stone-300 lg:bg-[#fdfbf6] px-5 py-2.5 lg:shadow-sm">
       <div
-        className={`h-9 w-9 shrink-0 overflow-hidden rounded-full transition-opacity duration-800 ${
+        className={`h-9 w-9 shrink-0 overflow-hidden rounded-full border border-stone-200 transition-opacity duration-800 ${
           showPhoto ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
@@ -27,7 +27,7 @@ export default function Navbar({ photoUrl }: { photoUrl?: string | null }) {
       </div>
 
       {/* Full nav — large screens only */}
-      <nav className="hidden flex-1 flex-wrap items-center justify-center gap-1 text-sm lg:flex">
+      <nav className="hidden flex-1 flex-wrap items-center justify-center gap-3 text-sm lg:flex">
         {NAV_ITEMS.map((item) => {
           const active = pathname === item.href;
           return (
@@ -35,9 +35,15 @@ export default function Navbar({ photoUrl }: { photoUrl?: string | null }) {
               key={item.href}
               href={item.href}
               data-label={item.label}
-              className={`nav-link rounded-lg px-3 py-1.5 transition-colors hover:bg-neutral-100`}
+              className="nav-link group rounded-lg px-3 py-1.5 transition-colors hover:bg-stone-100"
             >
-              <span className={active ? "font-semibold text-neutral-900" : "font-normal text-neutral-500"}>
+              <span
+                className={
+                  active
+                    ? "font-semibold text-stone-900"
+                    : "font-normal text-stone-500 transition-colors group-hover:text-amber-700"
+                }
+              >
                 {item.label}
               </span>
             </Link>
@@ -47,12 +53,12 @@ export default function Navbar({ photoUrl }: { photoUrl?: string | null }) {
 
       <div className="flex-1 lg:hidden" />
 
-      <div className="mx-2 flex shrink-0 items-center gap-3 text-neutral-500">
-        <span className="hidden h-6 w-px bg-neutral-200 lg:block" />
-        <a href={SOCIAL_LINKS.github} target="_blank" rel="noreferrer" className="hover:text-neutral-900">
+      <div className="mx-2 flex shrink-0 items-center gap-3 text-stone-500">
+        <span className="hidden h-6 w-px bg-stone-300 lg:block" />
+        <a href={SOCIAL_LINKS.github} target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-700">
           <GithubIcon className="h-5 w-5" />
         </a>
-        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noreferrer" className="hover:text-neutral-900">
+        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-700">
           <LinkedinIcon className="h-5 w-5" />
         </a>
         <MobileNavMenu />

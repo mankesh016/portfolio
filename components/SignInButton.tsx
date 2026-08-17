@@ -6,7 +6,7 @@ export default function SignInButton() {
     <form action={googleSignIn}>
       <button
         type="submit"
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50"
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-stone-300 bg-[#fdfbf6] px-4 py-3 text-sm font-medium text-stone-800 transition-colors hover:border-amber-600"
       >
         <FcGoogle className="h-5 w-5" />
         Sign in with Google to leave a message

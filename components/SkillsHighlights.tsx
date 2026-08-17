@@ -31,7 +31,7 @@ export default function SkillsHighlights({ categories }: { categories: CategoryW
   if (featuredCategories.length === 0) return null;
 
   return (
-    <HighlightsPanel title="Skills" linkHref="/skills" linkLabel="See more skills →">
+    <HighlightsPanel title="Skills" linkHref="/about#skills" linkLabel="See more skills →">
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         {featuredCategories.map((category) => (
           <SkillCategoryCard key={category.id} category={category} />
