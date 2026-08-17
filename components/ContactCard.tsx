@@ -5,7 +5,7 @@ import DotPattern from "./DotPattern";
 
 export default function ContactCard() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-neutral-200 p-8">
+    <div className="relative overflow-hidden rounded-2xl border border-stone-300 bg-[#fdfbf6] p-8">
       <DotPattern />
       <div className="relative">
         <h2 className="text-3xl font-bold text-neutral-900">{CONTACT_CARD.heading}</h2>

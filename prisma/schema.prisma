@@ -115,6 +115,25 @@ model Education {
   createdAt          DateTime @default(now())
 }
 
+// Hero-section extras — kept separate from Profile so the hero's "currently" facts
+// (open-to-work status, quick-fact entries) can evolve independently of the core bio.
+model HeroProfile {
+  id             String  @id @default("singleton")
+  mail           String?
+  resumeUrl      String?
+  location       String?
+  isOpenToWork   Boolean @default(false)
+  openToWorkText String? // e.g. "Open to full-time SWE roles"
+}
+
+model HeroEntry {
+  id      String  @id @default(cuid())
+  logoUrl String?
+  text    String // *word* renders bold, e.g. "Ex-intern, *Google*"
+  link    String?
+  order   Int     @default(0)
+}
+
 model Profile {
   id             String  @id @default("singleton")
   name           String
@@ -123,16 +142,6 @@ model Profile {
   photoSmallUrl  String?
   photoMediumUrl String?
   githubUsername String?
-}
-
-model InfoLine {
-  id        String  @id @default(cuid())
-  iconType  String  // "simpleicon" | "lucide"
-  iconValue String  // simple-icons slug, or a key from lib/lucideIcons.ts
-  text      String
-  href      String?
-  featured  Boolean @default(true)
-  order     Int     @default(0)
 }
 
 model PlatformCard {

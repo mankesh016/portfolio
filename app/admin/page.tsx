@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const SECTIONS = [
   { label: "Profile", href: "/admin/profile", desc: "Name, tagline, about, photo, GitHub username" },
-  { label: "Info Lines", href: "/admin/info-lines", desc: "Location, email, education, CP ranks" },
+  { label: "Hero", href: "/admin/hero", desc: "Open-to-work status, resume/mail/location, quick-fact entries" },
   { label: "Skills", href: "/admin/skills", desc: "Categories and skill pills" },
   { label: "Experience", href: "/admin/experience", desc: "Work history and roles" },
   { label: "Education", href: "/admin/education", desc: "Institutions, degrees, and years" },
