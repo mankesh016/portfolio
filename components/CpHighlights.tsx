@@ -1,12 +1,10 @@
-import Link from "next/link";
-import { Source_Serif_4 } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { serif } from "@/lib/fonts";
 import { formatMonthYear } from "@/lib/duration";
 import { guessIconSlug } from "@/lib/iconSlug";
 import CpPlatformIcon from "@/components/CpPlatformIcon";
+import HighlightsPanel from "@/components/HighlightsPanel";
 import type { CpProfileCard, CpAchievementCard } from "@prisma/client";
-
-const serif = Source_Serif_4({ subsets: ["latin"], weight: ["500", "600"] });
 
 function StatCell({ label, value }: { label: string; value: number }) {
   return (
@@ -21,9 +19,12 @@ function ProfileCard({ card }: { card: CpProfileCard }) {
   const slug = card.iconSlug || guessIconSlug(card.platform);
 
   return (
-    <div className="group rounded-xl border border-stone-300 bg-[#fdfbf6] p-5 transition-colors hover:border-stone-500">
+    <div className="group rounded-xl border border-stone-300 bg-[#fdfbf6] p-5 transition-colors hover:border-amber-600">
       <div className="flex items-center justify-between">
-        <CpPlatformIcon slug={slug} className="h-5 w-5 transition-[filter] duration-200 group-hover:brightness-75" />
+        <CpPlatformIcon
+          slug={slug}
+          className="h-5 w-5 transition-colors duration-200 text-amber-600 group-hover:text-amber-700"
+        />
         {card.sinceYear && (
           <span className="font-mono text-xs tracking-wide text-stone-400 uppercase">
             Since {card.sinceMonth ? formatMonthYear(card.sinceMonth, card.sinceYear) : card.sinceYear}
@@ -32,7 +33,9 @@ function ProfileCard({ card }: { card: CpProfileCard }) {
       </div>
 
       <p className="mt-4 font-mono text-xs tracking-wide text-stone-400 uppercase">{card.platform}</p>
-      <p className={cn(serif.className, "mt-1 text-2xl text-stone-900")}>{card.rankTitle}</p>
+      <p className={cn(serif.className, "mt-1 text-2xl text-stone-900 transition-colors group-hover:text-amber-700")}>
+        {card.rankTitle}
+      </p>
       {card.rankSubtitle && <p className="mt-0.5 text-sm text-stone-500">{card.rankSubtitle}</p>}
 
       <div className="mt-5 grid grid-cols-2 gap-4">
@@ -47,7 +50,7 @@ function ProfileCard({ card }: { card: CpProfileCard }) {
 
 function AchievementCard({ card }: { card: CpAchievementCard }) {
   return (
-    <div className="flex-1 rounded-xl border border-stone-300 bg-[#fdfbf6] p-5 transition-colors hover:border-stone-500">
+    <div className="flex-1 rounded-xl border border-stone-300 bg-[#fdfbf6] p-5 transition-colors hover:border-amber-600">
       <p className="font-mono text-xs tracking-wide text-stone-400 uppercase">{card.label}</p>
       <p className="mt-3 font-mono text-sm leading-relaxed text-stone-700">{card.description}</p>
     </div>
@@ -73,21 +76,15 @@ export default function CpHighlights({
   const achievementPairs = pairUp(achievementCards);
 
   return (
-    <div className="rounded-2xl bg-stone-100 p-6 sm:p-8">
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className={cn(serif.className, "text-2xl text-stone-900 sm:text-3xl")}>Competitive programming</h2>
-        <Link
-          href="/competitive-programming"
-          className="shrink-0 font-mono text-xs tracking-wide text-stone-500 uppercase hover:text-stone-700"
-        >
-          All ratings and ranks →
-        </Link>
-      </div>
-
+    <HighlightsPanel
+      title="Competitive Programming"
+      linkHref="/competitive-programming"
+      linkLabel="All ratings and ranks →"
+    >
       {/* Profile cards fill one grid cell each; achievement cards pair up (stacked) to fill
           a cell at a time, so they backfill the space next to an odd trailing profile card
           instead of leaving it empty or starting an awkward new row. */}
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {profileCards.map((card) => (
           <ProfileCard key={card.id} card={card} />
         ))}
@@ -99,6 +96,6 @@ export default function CpHighlights({
           </div>
         ))}
       </div>
-    </div>
+    </HighlightsPanel>
   );
 }

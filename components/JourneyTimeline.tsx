@@ -44,15 +44,15 @@ export default function JourneyTimeline({ events }: { events: JourneyEvent[] }) 
               <h3 className="mt-1 font-semibold text-neutral-900">{event.heading}</h3>
               <p className="mt-1 text-sm text-neutral-500">{event.description}</p>
 
-              {tags.length > 0 && (
+              {/* {tags.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
                   {tags.map((tag) => (
                     <TechPill key={tag.name} name={tag.name} iconSlug={tag.iconSlug ?? null} />
                   ))}
                 </div>
-              )}
+              )} */}
 
-              <JourneyLinksRow links={(event.links as { type: JourneyLinkType; label: string; url: string }[]) ?? []} />
+              {/* <JourneyLinksRow links={(event.links as { type: JourneyLinkType; label: string; url: string }[]) ?? []} /> */}
             </div>
           </div>
         );

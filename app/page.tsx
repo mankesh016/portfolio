@@ -1,30 +1,40 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import MiniWindow from "@/components/layout/MiniWindow";
-import TechPill from "@/components/TechPill";
 import InfoLineIcon from "@/components/icons/InfoLineIcon";
 import GithubContributions from "@/components/GithubContributions";
-import ExperienceTeaserCard from "@/components/ExperienceTeaserCard";
-import EducationCard from "@/components/EducationCard";
+import SkillsHighlights from "@/components/SkillsHighlights";
+import ExperienceHighlights from "@/components/ExperienceHighlights";
+import EducationHighlights from "@/components/EducationHighlights";
 import CpHighlights from "@/components/CpHighlights";
+import ProjectsHighlights from "@/components/ProjectsHighlights";
 import ContactCard from "@/components/ContactCard";
-import ProjectCard from "@/components/ProjectCard";
 
 export default async function HomePage() {
-  const [profile, infoLines, featuredSkills, featuredExperiences, educations, featuredProjects, cpProfileCards, cpAchievementCards] =
-    await Promise.all([
-      prisma.profile.findUnique({ where: { id: "singleton" } }),
-      prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
-      prisma.skill.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
-      prisma.experience.findMany({
-        where: { isFeatured: true },
-        orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
-      }),
-      prisma.education.findMany({ orderBy: { order: "asc" } }),
-      prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
-      prisma.cpProfileCard.findMany({ orderBy: { order: "asc" } }),
-      prisma.cpAchievementCard.findMany({ orderBy: { order: "asc" } }),
-    ]);
+  const [
+    profile,
+    infoLines,
+    skillCategories,
+    featuredExperiences,
+    educations,
+    featuredProjects,
+    cpProfileCards,
+    cpAchievementCards,
+  ] = await Promise.all([
+    prisma.profile.findUnique({ where: { id: "singleton" } }),
+    prisma.infoLine.findMany({ where: { featured: true }, orderBy: { order: "asc" } }),
+    prisma.skillCategory.findMany({
+      orderBy: { order: "asc" },
+      include: { skills: { where: { featured: true }, orderBy: { order: "asc" } } },
+    }),
+    prisma.experience.findMany({
+      where: { isFeatured: true },
+      orderBy: [{ startYear: "desc" }, { startMonth: "desc" }],
+    }),
+    prisma.education.findMany({ orderBy: { order: "asc" } }),
+    prisma.project.findMany({ where: { isFeatured: true }, orderBy: { order: "asc" } }),
+    prisma.cpProfileCard.findMany({ orderBy: { order: "asc" } }),
+    prisma.cpAchievementCard.findMany({ orderBy: { order: "asc" } }),
+  ]);
 
   if (!profile) {
     return <p className="text-sm text-neutral-400">Profile not set up yet — visit /admin/profile.</p>;
@@ -74,86 +84,13 @@ export default async function HomePage() {
 
       {profile.githubUsername && <GithubContributions username={profile.githubUsername} />}
 
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
+      <ExperienceHighlights experiences={featuredExperiences} />
 
-      {/* Inherited teasers */}
-      {featuredSkills.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Skills</h2>
-          <div className="flex flex-wrap gap-2.5">
-            {featuredSkills.map((skill) => (
-              <TechPill key={skill.id} name={skill.name} iconSlug={skill.iconSlug} />
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/skills"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Skills →
-            </Link>
-          </div>
-        </div>
-      )}
+      <EducationHighlights educations={educations} />
 
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
+      <ProjectsHighlights projects={featuredProjects} />
 
-      {featuredExperiences.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Experiences</h2>
-
-          {featuredExperiences.map((exp) => (
-            <ExperienceTeaserCard key={exp.id} exp={exp} />
-          ))}
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/experience"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Experiences →
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
-
-      {educations.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Education</h2>
-
-          <div className="space-y-4">
-            {educations.map((edu) => (
-              <EducationCard key={edu.id} education={edu} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* horizontical line seprator */}
-      <div className="h-px bg-neutral-200" />
-
-      {featuredProjects.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="mb-6 text-xl font-semibold text-neutral-700">Projects</h2>
-
-          {featuredProjects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
-
-          <div className="mt-4 flex justify-center">
-            <Link
-              href="/projects"
-              className="rounded-full px-4 py-2 text-sm text-neutral-500 transition-all hover:text-neutral-700"
-            >
-              See More Projects →
-            </Link>
-          </div>
-        </div>
-      )}
+      <SkillsHighlights categories={skillCategories} />
 
       <CpHighlights profileCards={cpProfileCards} achievementCards={cpAchievementCards} />
 

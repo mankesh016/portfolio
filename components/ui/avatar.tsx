@@ -74,7 +74,9 @@ export function Avatar({ src, alt = "", fallback, shape, size = "sm", fit = "con
     <div
       className={cn(
         avatarVariants({ shape, size }),
-        "flex items-center justify-center bg-neutral-100 font-semibold text-neutral-400",
+        // Auto-width instead of the fixed square/circle width so multi-letter fallbacks
+        // (e.g. institution initials like "JECRC") aren't clipped.
+        "flex w-auto items-center justify-center bg-neutral-100 px-2 font-semibold text-neutral-400",
         fallbackTextSize[size ?? "sm"],
         className,
       )}

@@ -99,16 +99,20 @@ model Experience {
 }
 
 model Education {
-  id              String   @id @default(cuid())
-  institutionName String
-  institutionUrl  String?
-  logoUrl         String?
-  degree          String
-  startYear       Int
-  endYear         Int?
-  isCurrent       Boolean  @default(false)
-  order           Int      @default(0)
-  createdAt       DateTime @default(now())
+  id                 String   @id @default(cuid())
+  institutionName    String
+  institutionUrl     String?
+  logoUrl            String?
+  degree             String
+  location           String?
+  startYear          Int
+  endYear            Int?
+  isCurrent          Boolean  @default(false)
+  cgpaAttained       Float?
+  cgpaTotal          Float?
+  relevantCoursework String?
+  order              Int      @default(0)
+  createdAt          DateTime @default(now())
 }
 
 model Profile {

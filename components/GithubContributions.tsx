@@ -40,7 +40,7 @@ export default async function GithubContributions({ username }: { username: stri
         ))}
       </div>
       <div className="mt-2 flex items-center justify-between text-xs text-neutral-400">
-        <span>{total} contributions in the last year</span>
+        <span>{total} github contributions in the last year</span>
         <span className="flex items-center gap-[3px]">
           Less
           {LEVEL_COLORS.map((c, i) => (

@@ -12,14 +12,20 @@ function revalidateAll() {
 
 function buildData(formData: FormData) {
   const isCurrent = formData.get("isCurrent") === "on";
+  const cgpaAttained = formData.get("cgpaAttained") as string;
+  const cgpaTotal = formData.get("cgpaTotal") as string;
   return {
     institutionName: formData.get("institutionName") as string,
     institutionUrl: (formData.get("institutionUrl") as string) || null,
     logoUrl: (formData.get("logoUrl") as string) || null,
     degree: formData.get("degree") as string,
+    location: (formData.get("location") as string)?.trim() || null,
     startYear: Number(formData.get("startYear")),
     endYear: isCurrent ? null : Number(formData.get("endYear")) || null,
     isCurrent,
+    cgpaAttained: cgpaAttained ? Number(cgpaAttained) : null,
+    cgpaTotal: cgpaTotal ? Number(cgpaTotal) : null,
+    relevantCoursework: (formData.get("relevantCoursework") as string)?.trim() || null,
   };
 }
 
