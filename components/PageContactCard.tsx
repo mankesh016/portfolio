@@ -11,11 +11,7 @@ export default function PageContactCard({
   children: ReactNode;
 }) {
   return (
-<<<<<<< HEAD
-    <div className="relative overflow-hidden rounded-2xl border border-stone-300 bg-[#fdfbf6] p-8">
-=======
     <div className="relative overflow-hidden rounded-2xl border border-stone-300 bg-[#fdfbf6] p-6 sm:p-8">
->>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
       <DotPattern />
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0 flex-1">

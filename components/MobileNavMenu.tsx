@@ -43,21 +43,9 @@ export default function MobileNavMenu() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-<<<<<<< HEAD
-                    className={`rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                      active ? "font-semibold text-stone-900" : "text-stone-500"
-                    } hover:bg-stone-100 hover:text-amber-700`}
-=======
-<<<<<<< Updated upstream
-                    className={`rounded-lg px-3 py-2.5 text-sm ${
-                      active ? "font-semibold text-neutral-900" : "text-neutral-500"
-                    } hover:bg-neutral-50`}
-=======
                     className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                       active ? "font-semibold text-stone-900" : "text-stone-500"
                     } hover:bg-stone-100 hover:text-amber-700`}
->>>>>>> Stashed changes
->>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
                   >
                     {Icon && <Icon className="h-4 w-4" />}
                     {item.label}

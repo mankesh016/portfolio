@@ -14,15 +14,7 @@ export default function ExperienceCard({ exp }: { exp: Experience }) {
       <div className="flex items-start gap-4">
         <Avatar src={exp.logoUrl} shape="square" size="md" fallback={exp.companyName[0]} />
         <div className="flex-1">
-<<<<<<< HEAD
-          <div className="flex items-center justify-between gap-2">
-=======
-<<<<<<< Updated upstream
-          <div className="flex items-center justify-between">
-=======
           <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
->>>>>>> Stashed changes
->>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
             <a
               href={exp.companyUrl ?? undefined}
               target="_blank"
