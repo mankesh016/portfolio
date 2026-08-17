@@ -1,19 +1,21 @@
 import Link from "next/link";
 import type { Project } from "@prisma/client";
 import { Avatar } from "@/components/ui/avatar";
-import { cardVariants } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { serif } from "@/lib/fonts";
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className={cn(cardVariants(), "flex items-start gap-4 hover:bg-neutral-50")}
+      className="group flex items-center gap-4 rounded-xl border border-stone-300 bg-[#fdfbf6] p-6 transition-colors hover:border-amber-700"
     >
-      <Avatar src={project.logoUrl} size="md" fallback={project.name[0]} />
+      <Avatar src={project.logoUrl} shape="square" size="md" fallback={project.name[0]} />
       <div>
-        <h3 className="font-semibold text-neutral-900">{project.name}</h3>
-        <p className="text-sm text-neutral-500">{project.shortDescription}</p>
+        <p className={cn(serif.className, "text-2xl text-stone-900 transition-colors group-hover:text-amber-700")}>
+          {project.name}
+        </p>
+        <p className="mt-1 text-sm text-stone-500">{project.shortDescription}</p>
       </div>
     </Link>
   );

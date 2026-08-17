@@ -35,13 +35,13 @@ export default async function GuestbookPage() {
 
       <div className="mt-12">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-neutral-900">Notes</h2>
-          <span className="font-mono text-sm text-neutral-400">{signedCount} signed</span>
+          <h2 className="text-2xl font-semibold text-stone-900">Notes</h2>
+          <span className="font-mono text-sm text-stone-400">{signedCount} signed</span>
         </div>
 
-        <div className="mt-6 divide-y divide-neutral-100">
+        <div className="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-300 bg-[#fdfbf6]">
           {entries.map((entry) => (
-            <div key={entry.id} className="flex gap-3 py-6">
+            <div key={entry.id} className="flex gap-3 p-6">
               <Avatar
                 src={entry.isAnonymous ? null : entry.user.image}
                 shape="circle"
@@ -51,10 +51,10 @@ export default async function GuestbookPage() {
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-semibold text-neutral-900">
+                  <span className="font-semibold text-stone-900">
                     {entry.isAnonymous ? "Anonymous" : entry.user.name}
                   </span>
-                  <span className="font-mono text-xs text-neutral-400">
+                  <span className="font-mono text-xs text-stone-400">
                     {entry.createdAt.toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -65,10 +65,10 @@ export default async function GuestbookPage() {
                     <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs text-yellow-700">pending</span>
                   )}
                 </div>
-                <p className="mt-0 whitespace-pre-line text-neutral-500">{entry.message}</p>
+                <p className="mt-0 whitespace-pre-line text-stone-500">{entry.message}</p>
                 {isAdmin && !entry.approved && (
                   <form action={approveEntry.bind(null, entry.id)} className="mt-3">
-                    <button className="text-xs font-normal text-orange-600 hover:underline">Approve</button>
+                    <button className="text-xs font-normal text-amber-700 hover:underline">Approve</button>
                   </form>
                 )}
               </div>

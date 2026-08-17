@@ -17,16 +17,16 @@ export default function GuestbookForm({ userName }: { userName: string }) {
         formRef.current?.reset();
         setPending(false);
       }}
-      className="rounded-lg border border-neutral-200 p-4"
+      className="rounded-xl border border-stone-300 bg-[#fdfbf6] p-5"
     >
       <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-500">
-          Signed in as <span className="font-medium text-neutral-800">{userName}</span>
+        <p className="text-sm text-stone-500">
+          Signed in as <span className="font-medium text-stone-800">{userName}</span>
         </p>
         <button
           type="button"
           onClick={() => userSignOut()}
-          className="text-xs text-neutral-400 hover:text-neutral-700 hover:underline"
+          className="text-xs text-stone-400 hover:text-stone-700 hover:underline"
         >
           Sign out
         </button>
@@ -36,11 +36,11 @@ export default function GuestbookForm({ userName }: { userName: string }) {
         required
         rows={3}
         placeholder="Leave a note..."
-        className="mt-3 w-full resize-none rounded-md border border-neutral-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+        className="mt-3 w-full resize-none rounded-md border border-stone-300 bg-white p-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
       />
       <div className="mt-3 flex items-center justify-between">
-        <label className="flex items-center gap-2 text-sm text-neutral-500">
-          <input type="checkbox" name="anonymous" className="rounded border-neutral-300" />
+        <label className="flex items-center gap-2 text-sm text-stone-500">
+          <input type="checkbox" name="anonymous" className="rounded border-stone-300" />
           Post anonymously
         </label>
         <button

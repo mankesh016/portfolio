@@ -14,7 +14,7 @@ const CODE_HANDLES = [
 
 // Pages that already end in a contact-style card (with its own breathing room)
 // shouldn't get the extra top margin added for pages that end mid-content.
-const TIGHT_FOOTER_PATHS = ["/", "/about"];
+const TIGHT_FOOTER_PATHS = ["/", "/about", "/experience", "/projects", "/cp"];
 
 export default function Footer() {
   const pathname = usePathname();

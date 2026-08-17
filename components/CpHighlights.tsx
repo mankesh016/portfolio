@@ -78,7 +78,7 @@ export default function CpHighlights({
   return (
     <HighlightsPanel
       title="Competitive Programming"
-      linkHref="/competitive-programming"
+      linkHref="/cp"
       linkLabel="All ratings and ranks →"
     >
       {/* Profile cards fill one grid cell each; achievement cards pair up (stacked) to fill
