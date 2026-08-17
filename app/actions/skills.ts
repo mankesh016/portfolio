@@ -6,7 +6,7 @@ import { assertAdmin } from "@/lib/auth-guards";
 
 function revalidateAll() {
   revalidatePath("/admin/skills");
-  revalidatePath("/skills");
+  revalidatePath("/about");
   revalidatePath("/");
 }
 

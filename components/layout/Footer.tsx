@@ -12,11 +12,16 @@ const CODE_HANDLES = [
   { name: "LeetCode", url: SOCIAL_LINKS.leetcode, slug: "leetcode" },
 ];
 
+// Pages that already end in a contact-style card (with its own breathing room)
+// shouldn't get the extra top margin added for pages that end mid-content.
+const TIGHT_FOOTER_PATHS = ["/", "/about"];
+
 export default function Footer() {
-  const isHome = usePathname() === "/";
+  const pathname = usePathname();
+  const tight = TIGHT_FOOTER_PATHS.includes(pathname);
 
   return (
-    <footer className={cn("mx-auto max-w-4xl px-4 pb-10 pt-8 sm:px-8", isHome ? "mt-0" : "mt-16")}>
+    <footer className={cn("mx-auto max-w-4xl px-4 pb-10 pt-8 sm:px-8", tight ? "mt-0" : "mt-16")}>
       <div className="flex flex-wrap items-center justify-center divide-x divide-neutral-200 border-t border-neutral-200 pt-6 text-sm text-neutral-500">
         {CODE_HANDLES.map((h) => (
           <a

@@ -11,11 +11,10 @@ export const CONTACT_EMAIL = "mankesh016@gmail.com";
 
 export const NAV_ITEMS = [
   { label: "Home", href: "/" },
-  { label: "Experience", href: "/experience" },
-  { label: "Skills", href: "/skills" },
-  { label: "Projects", href: "/projects" },
-  { label: "Competitive Programming", href: "/competitive-programming" },
   { label: "About", href: "/about" },
+  { label: "Experience", href: "/experience" },
+  { label: "Projects", href: "/projects" },
+  { label: "CP", href: "/competitive-programming" },
   { label: "Guestbook", href: "/guestbook" },
 ];
 
@@ -24,4 +23,9 @@ export const CONTACT_CARD = {
   subtitle:
     "If you have an idea to discuss, need some guidance, have an opportunity to share, or just want to say hi... I'm just a message away.",
   calUrl: "https://cal.com/mankesh",
+};
+
+export const SAY_HI_CARD = {
+  heading: "Still reading? Say hi.",
+  subtitle: "Hiring, collaborating, or stuck on a problem — I answer everything.",
 };
