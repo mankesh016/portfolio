@@ -29,9 +29,10 @@ export default function Footer() {
             href={h.url}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 px-4 last:pr-0 hover:text-neutral-900"
+            aria-label={h.name}
+            className="flex items-center gap-2 px-3 last:pr-0 hover:text-neutral-900 sm:px-4"
           >
-            <CodeIcon slug={h.slug} name={h.name} /> {h.name}
+            <CodeIcon slug={h.slug} name={h.name} /> <span className="hidden sm:inline">{h.name}</span>
           </a>
         ))}
       </div>

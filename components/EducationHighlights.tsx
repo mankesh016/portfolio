@@ -19,7 +19,11 @@ function EducationHighlightCard({ education }: { education: Education }) {
 
   return (
     <div className="rounded-xl border border-stone-300 bg-[#fdfbf6] p-5 transition-colors hover:border-amber-600">
+<<<<<<< HEAD
       <div className="grid grid-cols-[1fr_20%] items-start gap-4">
+=======
+      <div className="flex flex-col gap-3 sm:grid sm:grid-cols-[1fr_20%] sm:items-start sm:gap-4">
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
         <div className="flex min-w-0 items-start gap-4">
           <Avatar src={education.logoUrl} shape="square" size="md" fallback={getInitials(education.institutionName)} />
           <div className="min-w-0">
@@ -27,9 +31,15 @@ function EducationHighlightCard({ education }: { education: Education }) {
             <p className="mt-1 text-sm text-stone-600">{degreeLine}</p>
           </div>
         </div>
+<<<<<<< HEAD
         <div className="mt-2 text-right">
           <p className="font-mono text-xs tracking-wide text-stone-400 uppercase">Year</p>
           <p className="mt-1 text-sm text-stone-400">{yearRange}</p>
+=======
+        <div className="flex items-baseline gap-2 sm:mt-2 sm:flex-col sm:text-right">
+          <p className="font-mono text-xs tracking-wide text-stone-400 uppercase">Year</p>
+          <p className="text-sm text-stone-400 sm:mt-1">{yearRange}</p>
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
         </div>
       </div>
 
@@ -48,9 +58,15 @@ function EducationHighlightCard({ education }: { education: Education }) {
           {courses.length > 0 && (
             <div className={cn("min-w-0", !hasCgpa && "col-span-2")}>
               <p className="font-mono text-xs tracking-wide text-stone-400 uppercase">Relevant coursework</p>
+<<<<<<< HEAD
               <div className="mt-2 flex flex-wrap gap-2">
                 {courses.map((course) => (
                   <span key={course} className="rounded-full border border-stone-300 px-3 py-1 text-sm text-stone-700">
+=======
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {courses.map((course) => (
+                  <span key={course} className="rounded-full border border-stone-300 px-2 py-0.5 text-xs text-stone-700">
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
                     {course}
                   </span>
                 ))}

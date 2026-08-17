@@ -40,7 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <div className="min-h-screen px-4 py-6 sm:px-8">
           <Navbar photoUrl={profile?.photoSmallUrl} />
-          <main className="mx-auto max-w-4xl pt-8 px-12">{children}</main>
+          <main className="mx-auto max-w-4xl px-0 pt-8 sm:px-4 lg:px-12">{children}</main>
           <Footer />
         </div>
       </body>

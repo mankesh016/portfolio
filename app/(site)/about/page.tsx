@@ -29,6 +29,11 @@ export default async function AboutPage() {
         subtitle="Everything that doesn't fit neatly into experience, projects, or CP."
       />
 
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
       <section id="skills" className="scroll-mt-24">
         <h2 className="text-2xl font-semibold text-stone-900">Skills</h2>
         <p className="mt-1 text-neutral-500">Languages, frameworks, and tools I work with.</p>
@@ -61,11 +66,19 @@ export default async function AboutPage() {
           {numberToWords(momentsCount)} moments.
         </p>
 
+<<<<<<< HEAD
         <div className="mt-8 rounded-2xl border border-stone-300 bg-[#fdfbf6] p-8">
+=======
+        <div className="mt-8 rounded-2xl border border-stone-300 bg-[#fdfbf6] p-6 sm:p-8">
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
           <JourneyTimeline events={events} />
         </div>
       </section>
 
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
       <div className="mt-8">
         <StillReadingCard />
       </div>

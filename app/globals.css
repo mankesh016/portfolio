@@ -126,6 +126,14 @@
   }
   html {
     @apply font-sans;
+    /* Scales every rem-based text/spacing utility down a notch on small screens
+       instead of adding sm: overrides to each component individually. */
+    font-size: 15px;
+  }
+  @media (min-width: 640px) {
+    html {
+      font-size: 16px;
+    }
   }
 }
 
@@ -154,6 +162,7 @@ body {
   color: #171717;
   /* neutral-900 */
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  overflow-x: hidden;
 }
 
 .nav-link {

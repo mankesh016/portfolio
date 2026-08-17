@@ -28,7 +28,7 @@ export default function PageHeader({
         ))}
       </p>
 
-      {heading && <h1 className="mt-6 text-4xl font-bold text-neutral-900">{heading}</h1>}
+      {heading && <h1 className="mt-6 text-3xl font-bold text-neutral-900">{heading}</h1>}
       {subtitle && <p className="mt-2 text-neutral-500">{subtitle}</p>}
     </div>
   );

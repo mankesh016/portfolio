@@ -5,11 +5,19 @@ import DotPattern from "./DotPattern";
 
 export default function ContactCard() {
   return (
+<<<<<<< HEAD
     <div className="relative overflow-hidden rounded-2xl border border-stone-300 bg-[#fdfbf6] p-8">
+=======
+<<<<<<< Updated upstream
+    <div className="relative overflow-hidden rounded-2xl border border-neutral-200 p-8">
+=======
+    <div className="relative overflow-hidden rounded-2xl border border-stone-300 bg-[#fdfbf6] p-6 sm:p-8">
+>>>>>>> Stashed changes
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
       <DotPattern />
       <div className="relative">
         <h2 className="text-3xl font-bold text-neutral-900">{CONTACT_CARD.heading}</h2>
-        <p className="mt-3 max-w-[70%] text-neutral-500">{CONTACT_CARD.subtitle}</p>
+        <p className="mt-3 max-w-full text-neutral-500 sm:max-w-[70%]">{CONTACT_CARD.subtitle}</p>
 
         <div className="mt-6 flex flex-wrap gap-3">
           <a

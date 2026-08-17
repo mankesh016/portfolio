@@ -9,10 +9,23 @@ function ProjectHighlightCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
+<<<<<<< HEAD
       className="group flex flex-col gap-4 rounded-xl border border-stone-300 bg-[#fdfbf6] p-6 transition-colors hover:border-amber-700"
     >
       <div className="flex items-center gap-4">
         <Avatar src={project.logoUrl} shape="square" size="md" fallback={project.name[0]} className="" />
+=======
+      className="group flex flex-col gap-3 rounded-xl border border-stone-300 bg-[#fdfbf6] p-4 transition-colors hover:border-amber-700 sm:gap-4 sm:p-6"
+    >
+      <div className="flex items-center gap-3 sm:gap-4">
+        <Avatar
+          src={project.logoUrl}
+          shape="square"
+          size="md"
+          fallback={project.name[0]}
+          className="h-9 w-9 sm:h-12 sm:w-12"
+        />
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
         <p className={cn(serif.className, "text-2xl text-stone-900 transition-colors group-hover:text-amber-700")}>
           {project.name}
         </p>

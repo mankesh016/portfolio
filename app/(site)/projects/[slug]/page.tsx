@@ -28,13 +28,30 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         Go Back
       </Link>
 
+<<<<<<< HEAD
       <div className="rounded-2xl border border-stone-300 bg-[#fdfbf6] p-8">
+=======
+<<<<<<< Updated upstream
+      <div className="flex items-center gap-3">
+        {project.logoUrl && (
+          <img src={project.logoUrl} alt="" className="h-14 w-14 rounded-md border border-neutral-100 object-contain" />
+        )}
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold text-neutral-900">{project.name}</h1>
+          <p className="text-neutral-500 text-sm">{project.shortDescription}</p>
+=======
+      <div className="rounded-2xl border border-stone-300 bg-[#fdfbf6] p-6 sm:p-8">
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
         <div className="flex items-center gap-4">
           <Avatar src={project.logoUrl} shape="square" size="lg" fallback={project.name[0]} />
           <div className="flex flex-col">
             <h1 className={cn(serif.className, "text-3xl text-stone-900")}>{project.name}</h1>
             <p className="text-sm text-stone-500">{project.shortDescription}</p>
           </div>
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> 2b661ef (fix: improve mobile responsiveness across layout and components)
         </div>
 
         <p className="mt-5 leading-relaxed text-stone-600">{project.longDescription}</p>
