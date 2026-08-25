@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +34,7 @@ type AvatarProps = VariantProps<typeof avatarVariants> & {
   src?: string | null;
   alt?: string;
   /** Rendered when there's no src (or the src fails to load). If omitted, the avatar renders nothing. */
-  fallback?: string;
+  fallback?: ReactNode;
   fit?: "contain" | "cover";
   /**
    * Inset the image within the frame instead of filling it edge-to-edge. Use for icon-style

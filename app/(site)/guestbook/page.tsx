@@ -2,9 +2,10 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import SignInButton from "@/components/SignInButton";
 import GuestbookForm from "@/components/GuestbookForm";
-import { approveEntry } from "@/app/actions/guestbook";
+import { approveEntry, hideEntry, deleteEntry } from "@/app/actions/guestbook";
 import PageHeader from "@/components/PageHeader";
 import { Avatar } from "@/components/ui/avatar";
+import { UserRound, Eye, EyeOff, Trash2 } from "lucide-react";
 
 export const metadata = { title: "Guestbook" };
 
@@ -47,30 +48,48 @@ export default async function GuestbookPage() {
                 shape="circle"
                 size="xs"
                 fit="cover"
-                fallback={entry.isAnonymous ? "?" : (entry.user.name?.[0] ?? "?")}
+                fallback={entry.isAnonymous ? <UserRound className="h-1/2 w-1/2" /> : (entry.user.name?.[0] ?? "?")}
               />
               <div className="min-w-0 flex-1">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-semibold text-stone-900">
-                    {entry.isAnonymous ? "Anonymous" : entry.user.name}
-                  </span>
-                  <span className="font-mono text-xs text-stone-400">
-                    {entry.createdAt.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
-                  {!entry.approved && (
-                    <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs text-yellow-700">pending</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex flex-wrap items-baseline gap-2">
+                    <span className="font-semibold text-stone-900">
+                      {entry.isAnonymous ? "Anonymous" : entry.user.name}
+                    </span>
+                    <span className="font-mono text-xs text-stone-400">
+                      {entry.createdAt.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                    {!entry.approved && (
+                      <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs text-yellow-700">pending</span>
+                    )}
+                  </div>
+                  {isAdmin && !entry.approved && (
+                    <div className="flex shrink-0 items-center gap-3">
+                      <form action={approveEntry.bind(null, entry.id)}>
+                        <button className="text-stone-400 hover:text-stone-600" title="Approve">
+                          <EyeOff className="h-4 w-4" />
+                        </button>
+                      </form>
+                      <form action={deleteEntry.bind(null, entry.id)}>
+                        <button className="text-stone-400 hover:text-stone-600" title="Delete">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                  {isAdmin && entry.approved && (
+                    <form action={hideEntry.bind(null, entry.id)} className="shrink-0">
+                      <button className="text-stone-400 hover:text-stone-600" title="Unapprove">
+                        <Eye className="h-4 w-4" />
+                      </button>
+                    </form>
                   )}
                 </div>
-                <p className="mt-0 whitespace-pre-line text-stone-500">{entry.message}</p>
-                {isAdmin && !entry.approved && (
-                  <form action={approveEntry.bind(null, entry.id)} className="mt-3">
-                    <button className="text-xs font-normal text-amber-700 hover:underline">Approve</button>
-                  </form>
-                )}
+                <p className="mt-1 whitespace-pre-line text-stone-500">{entry.message}</p>
               </div>
             </div>
           ))}

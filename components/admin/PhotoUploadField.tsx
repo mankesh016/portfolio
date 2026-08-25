@@ -13,14 +13,20 @@ export default function PhotoUploadField({
 }) {
   const [small, setSmall] = useState(defaultSmall ?? "");
   const [medium, setMedium] = useState(defaultMedium ?? "");
+  const [error, setError] = useState("");
   const { upload, uploading } = useImageUpload<{ small: string; medium: string }>("/api/admin/upload-photo");
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const data = await upload(file);
-    setSmall(data.small);
-    setMedium(data.medium);
+    setError("");
+    try {
+      const data = await upload(file);
+      setSmall(data.small);
+      setMedium(data.medium);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+    }
   }
 
   return (
@@ -30,6 +36,7 @@ export default function PhotoUploadField({
       <input type="hidden" name="photoSmallUrl" value={small} />
       <input type="hidden" name="photoMediumUrl" value={medium} />
       {uploading && <span className="text-xs text-neutral-400">Uploading…</span>}
+      {error && <span className="text-xs text-red-500">{error}</span>}
     </div>
   );
 }

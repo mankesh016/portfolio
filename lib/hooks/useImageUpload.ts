@@ -11,7 +11,11 @@ export function useImageUpload<T>(endpoint: string) {
       const body = new FormData();
       body.append("file", file);
       const res = await fetch(endpoint, { method: "POST", body });
-      return (await res.json()) as T;
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error(data?.error ?? `Upload failed (${res.status})`);
+      }
+      return data as T;
     } finally {
       setUploading(false);
     }

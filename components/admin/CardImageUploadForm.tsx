@@ -6,13 +6,19 @@ import { useImageUpload } from "@/lib/hooks/useImageUpload";
 
 export default function CardImageUploadForm({ cardId }: { cardId: string }) {
   const [url, setUrl] = useState("");
+  const [error, setError] = useState("");
   const { upload, uploading } = useImageUpload<{ url: string }>("/api/admin/upload-card-image");
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const data = await upload(file);
-    setUrl(data.url);
+    setError("");
+    try {
+      const data = await upload(file);
+      setUrl(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+    }
   }
 
   return (
@@ -37,6 +43,7 @@ export default function CardImageUploadForm({ cardId }: { cardId: string }) {
       >
         {uploading ? "Uploading..." : "Add Image"}
       </button>
+      {error && <span className="w-full text-xs text-red-500">{error}</span>}
     </form>
   );
 }
