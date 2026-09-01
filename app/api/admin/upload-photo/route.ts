@@ -13,17 +13,22 @@ export async function POST(req: NextRequest) {
   const file = formData.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const stamp = Date.now();
+  try {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const stamp = Date.now();
 
-  const small = await sharp(buffer).resize(120, 120, { fit: "cover" }).webp({ quality: 85 }).toBuffer();
+    const small = await sharp(buffer).resize(120, 120, { fit: "cover" }).webp({ quality: 85 }).toBuffer();
 
-  const medium = await sharp(buffer).resize(480, 480, { fit: "cover" }).webp({ quality: 85 }).toBuffer();
+    const medium = await sharp(buffer).resize(480, 480, { fit: "cover" }).webp({ quality: 85 }).toBuffer();
 
-  const [smallBlob, mediumBlob] = await Promise.all([
-    put(`profile/small-${stamp}.webp`, small, { access: "public", contentType: "image/webp" }),
-    put(`profile/medium-${stamp}.webp`, medium, { access: "public", contentType: "image/webp" }),
-  ]);
+    const [smallBlob, mediumBlob] = await Promise.all([
+      put(`profile/small-${stamp}.webp`, small, { access: "public", contentType: "image/webp" }),
+      put(`profile/medium-${stamp}.webp`, medium, { access: "public", contentType: "image/webp" }),
+    ]);
 
-  return NextResponse.json({ small: smallBlob.url, medium: mediumBlob.url });
+    return NextResponse.json({ small: smallBlob.url, medium: mediumBlob.url });
+  } catch (err) {
+    console.error("upload-photo failed", err);
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Upload failed" }, { status: 500 });
+  }
 }

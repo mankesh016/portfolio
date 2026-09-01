@@ -13,18 +13,23 @@ export async function POST(req: NextRequest) {
   const file = formData.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-  const optimized = await sharp(buffer)
-    .resize(256, 256, { fit: "inside", withoutEnlargement: true })
-    .webp({ quality: 80 })
-    .toBuffer();
+    const optimized = await sharp(buffer)
+      .resize(256, 256, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toBuffer();
 
-  const blob = await put(`logos/${Date.now()}.webp`, optimized, {
-    access: "public",
-    contentType: "image/webp",
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-  });
+    const blob = await put(`logos/${Date.now()}.webp`, optimized, {
+      access: "public",
+      contentType: "image/webp",
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
 
-  return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("upload-logo failed", err);
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Upload failed" }, { status: 500 });
+  }
 }

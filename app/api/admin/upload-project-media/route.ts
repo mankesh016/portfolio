@@ -14,25 +14,30 @@ export async function POST(req: NextRequest) {
   const type = formData.get("type") as string; // "image" | "video"
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const stamp = Date.now();
+  try {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const stamp = Date.now();
 
-  if (type === "video") {
-    const blob = await put(`project-media/${stamp}.mp4`, buffer, {
+    if (type === "video") {
+      const blob = await put(`project-media/${stamp}.mp4`, buffer, {
+        access: "public",
+        contentType: file.type || "video/mp4",
+      });
+      return NextResponse.json({ url: blob.url });
+    }
+
+    const optimized = await sharp(buffer)
+      .resize(1600, 1600, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 85 })
+      .toBuffer();
+
+    const blob = await put(`project-media/${stamp}.webp`, optimized, {
       access: "public",
-      contentType: file.type || "video/mp4",
+      contentType: "image/webp",
     });
     return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("upload-project-media failed", err);
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Upload failed" }, { status: 500 });
   }
-
-  const optimized = await sharp(buffer)
-    .resize(1600, 1600, { fit: "inside", withoutEnlargement: true })
-    .webp({ quality: 85 })
-    .toBuffer();
-
-  const blob = await put(`project-media/${stamp}.webp`, optimized, {
-    access: "public",
-    contentType: "image/webp",
-  });
-  return NextResponse.json({ url: blob.url });
 }

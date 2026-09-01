@@ -13,17 +13,22 @@ export async function POST(req: NextRequest) {
   const file = formData.get("file") as File | null;
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-  const optimized = await sharp(buffer)
-    .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
-    .webp({ quality: 82 })
-    .toBuffer();
+    const optimized = await sharp(buffer)
+      .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 82 })
+      .toBuffer();
 
-  const blob = await put(`cp-cards/${Date.now()}.webp`, optimized, {
-    access: "public",
-    contentType: "image/webp",
-  });
+    const blob = await put(`cp-cards/${Date.now()}.webp`, optimized, {
+      access: "public",
+      contentType: "image/webp",
+    });
 
-  return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("upload-card-image failed", err);
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Upload failed" }, { status: 500 });
+  }
 }
