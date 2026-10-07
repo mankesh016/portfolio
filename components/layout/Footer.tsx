@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { SOCIAL_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import CodeIcon from "../icons/CodeIcon";
+import VisitorCount from "../VisitorCount";
 
 const CODE_HANDLES = [
   { name: "Github", url: SOCIAL_LINKS.github, slug: "github" },
@@ -36,7 +37,8 @@ export default function Footer() {
           </a>
         ))}
       </div>
-      <p className="mt-6 text-center text-xs text-neutral-400">© {new Date().getFullYear()} Mankesh Meena</p>
+      <VisitorCount />
+      <p className="mt-2 text-center text-xs text-neutral-400">© {new Date().getFullYear()} Mankesh Meena</p>
     </footer>
   );
 }

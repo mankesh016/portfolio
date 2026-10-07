@@ -226,3 +226,9 @@ model JourneyEvent {
   links         Json     @default("[]") // { type, label, url }[]
   order         Int      @default(0)
 }
+// Footer "You are the Nth visitor" counter. Seeded at 100 to account for visitors
+// before the counter existed; the first counted visitor is #101.
+model SiteStats {
+  id           String @id @default("singleton")
+  visitorCount Int    @default(0)
+}
